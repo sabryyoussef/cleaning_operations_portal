@@ -1,0 +1,27 @@
+{
+    "name": "Cleaning Operations Demo Data",
+    "summary": "Demo-only native data preload for a cleaning operations proof of concept",
+    "version": "19.0.1.0.0",
+    "category": "Hidden",
+    "license": "LGPL-3",
+    "author": "Sabry Youssef",
+    "website": "https://github.com/sabryyoussef/cleaning_operations_portal",
+    "depends": [
+        "base",
+        "portal",
+        "hr",
+        "planning",
+    ],
+    "data": [
+        "data/res_partner_category_data.xml",
+        "data/res_partner_data.xml",
+        "data/hr_department_data.xml",
+        "data/hr_job_data.xml",
+        "data/res_users_data.xml",
+        "data/hr_employee_data.xml",
+        "data/planning_role_data.xml",
+        "data/planning_slot_data.xml",
+    ],
+    "installable": True,
+    "application": False,
+}

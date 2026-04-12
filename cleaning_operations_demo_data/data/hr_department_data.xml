@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="hr_department_cleaning_operations" model="hr.department">
+        <field name="name">Cleaning Operations</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+</odoo>

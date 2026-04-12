@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="res_partner_site_harbor_view_business_center" model="res.partner">
+        <field name="name">Harbor View Business Center</field>
+        <field name="company_type">company</field>
+        <field name="is_company">True</field>
+        <field name="street">Office 12, Marina Corniche Road</field>
+        <field name="street2">Dubai Marina</field>
+        <field name="city">Dubai</field>
+        <field name="zip">214477</field>
+        <field name="country_id" ref="base.ae"/>
+        <field name="phone">+971 4 555 0141</field>
+        <field name="email">facilities.hvb@example.com</field>
+        <field name="ref">SITE-HVB-001</field>
+        <field name="comment">QR placeholder: QR-SITE-HVB-001</field>
+        <field name="category_id" eval="[(6, 0, [ref('cleaning_operations_demo_data.res_partner_category_cleaning_site')])]"/>
+    </record>
+
+    <record id="res_partner_site_al_noor_medical_plaza" model="res.partner">
+        <field name="name">Al Noor Medical Plaza</field>
+        <field name="company_type">company</field>
+        <field name="is_company">True</field>
+        <field name="street">Building B, Khalidiya Street</field>
+        <field name="street2">Al Khalidiyah</field>
+        <field name="city">Abu Dhabi</field>
+        <field name="zip">45112</field>
+        <field name="country_id" ref="base.ae"/>
+        <field name="phone">+971 2 555 0186</field>
+        <field name="email">admin.anm@example.com</field>
+        <field name="ref">SITE-ANM-002</field>
+        <field name="comment">QR placeholder: QR-SITE-ANM-002</field>
+        <field name="category_id" eval="[(6, 0, [ref('cleaning_operations_demo_data.res_partner_category_cleaning_site')])]"/>
+    </record>
+
+    <record id="res_partner_site_palm_heights_residential_tower" model="res.partner">
+        <field name="name">Palm Heights Residential Tower</field>
+        <field name="company_type">company</field>
+        <field name="is_company">True</field>
+        <field name="street">Tower 3, Crescent Drive</field>
+        <field name="street2">Palm Jumeirah</field>
+        <field name="city">Dubai</field>
+        <field name="zip">214910</field>
+        <field name="country_id" ref="base.ae"/>
+        <field name="phone">+971 4 555 0193</field>
+        <field name="email">concierge.pht@example.com</field>
+        <field name="ref">SITE-PHT-003</field>
+        <field name="comment">QR placeholder: QR-SITE-PHT-003</field>
+        <field name="category_id" eval="[(6, 0, [ref('cleaning_operations_demo_data.res_partner_category_cleaning_site')])]"/>
+    </record>
+
+    <record id="res_partner_manager_nora_hassan" model="res.partner">
+        <field name="name">Nora Hassan</field>
+        <field name="company_type">person</field>
+        <field name="email">nora.hassan@example.com</field>
+        <field name="phone">+971 50 555 0101</field>
+        <field name="mobile">+971 50 555 0101</field>
+        <field name="function">Operations Manager</field>
+    </record>
+
+    <record id="res_partner_cleaner_ahmed_samir" model="res.partner">
+        <field name="name">Ahmed Samir</field>
+        <field name="company_type">person</field>
+        <field name="email">ahmed.samir@example.com</field>
+        <field name="phone">+971 50 555 0102</field>
+        <field name="mobile">+971 50 555 0102</field>
+        <field name="function">Cleaner</field>
+    </record>
+
+    <record id="res_partner_cleaner_fatima_khaled" model="res.partner">
+        <field name="name">Fatima Khaled</field>
+        <field name="company_type">person</field>
+        <field name="email">fatima.khaled@example.com</field>
+        <field name="phone">+971 50 555 0103</field>
+        <field name="mobile">+971 50 555 0103</field>
+        <field name="function">Cleaner</field>
+    </record>
+
+    <record id="res_partner_cleaner_omar_nabil" model="res.partner">
+        <field name="name">Omar Nabil</field>
+        <field name="company_type">person</field>
+        <field name="email">omar.nabil@example.com</field>
+        <field name="phone">+971 50 555 0104</field>
+        <field name="mobile">+971 50 555 0104</field>
+        <field name="function">Cleaner</field>
+    </record>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="planning_slot_weekly_harbor_view" model="planning.slot">
+        <field name="name">Weekly Cleaning - SITE-HVB-001 - Harbor View Business Center</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="role_id" ref="cleaning_operations_demo_data.planning_role_cleaner"/>
+        <field name="employee_id" ref="cleaning_operations_demo_data.hr_employee_cleaner_ahmed_samir"/>
+        <field name="start_datetime">2026-05-04 06:00:00</field>
+        <field name="end_datetime">2026-05-04 09:00:00</field>
+    </record>
+
+    <record id="planning_slot_monthly_palm_heights" model="planning.slot">
+        <field name="name">Monthly Deep Cleaning - SITE-PHT-003 - Palm Heights Residential Tower</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="role_id" ref="cleaning_operations_demo_data.planning_role_cleaner"/>
+        <field name="employee_id" ref="cleaning_operations_demo_data.hr_employee_cleaner_fatima_khaled"/>
+        <field name="start_datetime">2026-05-02 08:00:00</field>
+        <field name="end_datetime">2026-05-02 12:00:00</field>
+    </record>
+</odoo>
