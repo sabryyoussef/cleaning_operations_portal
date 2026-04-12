@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="res_users_manager_nora_hassan" model="res.users">
+        <field name="name">Nora Hassan</field>
+        <field name="login">nora.hassan@example.com</field>
+        <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_manager_nora_hassan"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('hr.group_hr_user'), ref('planning.group_planning_manager')])]"/>
+    </record>
+
+    <record id="res_users_cleaner_ahmed_samir" model="res.users">
+        <field name="name">Ahmed Samir</field>
+        <field name="login">ahmed.samir@example.com</field>
+        <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_cleaner_ahmed_samir"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+        <field name="share">True</field>
+        <field name="groups_id" eval="[(6, 0, [ref('portal.group_portal')])]"/>
+    </record>
+
+    <record id="res_users_cleaner_fatima_khaled" model="res.users">
+        <field name="name">Fatima Khaled</field>
+        <field name="login">fatima.khaled@example.com</field>
+        <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_cleaner_fatima_khaled"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+        <field name="share">True</field>
+        <field name="groups_id" eval="[(6, 0, [ref('portal.group_portal')])]"/>
+    </record>
+
+    <record id="res_users_cleaner_omar_nabil" model="res.users">
+        <field name="name">Omar Nabil</field>
+        <field name="login">omar.nabil@example.com</field>
+        <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_cleaner_omar_nabil"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+        <field name="share">True</field>
+        <field name="groups_id" eval="[(6, 0, [ref('portal.group_portal')])]"/>
+    </record>
+</odoo>

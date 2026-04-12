@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="hr_job_cleaner" model="hr.job">
+        <field name="name">Cleaner</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="hr_job_operations_manager" model="hr.job">
+        <field name="name">Operations Manager</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+</odoo>

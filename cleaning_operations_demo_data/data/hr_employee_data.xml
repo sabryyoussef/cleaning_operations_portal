@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="hr_employee_manager_nora_hassan" model="hr.employee">
+        <field name="name">Nora Hassan</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="department_id" ref="cleaning_operations_demo_data.hr_department_cleaning_operations"/>
+        <field name="job_id" ref="cleaning_operations_demo_data.hr_job_operations_manager"/>
+        <field name="work_email">nora.hassan@example.com</field>
+        <field name="work_phone">+971 4 555 0101</field>
+        <field name="mobile_phone">+971 50 555 0101</field>
+        <field name="user_id" ref="cleaning_operations_demo_data.res_users_manager_nora_hassan"/>
+    </record>
+
+    <record id="hr_employee_cleaner_ahmed_samir" model="hr.employee">
+        <field name="name">Ahmed Samir</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="department_id" ref="cleaning_operations_demo_data.hr_department_cleaning_operations"/>
+        <field name="job_id" ref="cleaning_operations_demo_data.hr_job_cleaner"/>
+        <field name="work_email">ahmed.samir@example.com</field>
+        <field name="work_phone">+971 4 555 0102</field>
+        <field name="mobile_phone">+971 50 555 0102</field>
+    </record>
+
+    <record id="hr_employee_cleaner_fatima_khaled" model="hr.employee">
+        <field name="name">Fatima Khaled</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="department_id" ref="cleaning_operations_demo_data.hr_department_cleaning_operations"/>
+        <field name="job_id" ref="cleaning_operations_demo_data.hr_job_cleaner"/>
+        <field name="work_email">fatima.khaled@example.com</field>
+        <field name="work_phone">+971 4 555 0103</field>
+        <field name="mobile_phone">+971 50 555 0103</field>
+    </record>
+
+    <record id="hr_employee_cleaner_omar_nabil" model="hr.employee">
+        <field name="name">Omar Nabil</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="department_id" ref="cleaning_operations_demo_data.hr_department_cleaning_operations"/>
+        <field name="job_id" ref="cleaning_operations_demo_data.hr_job_cleaner"/>
+        <field name="work_email">omar.nabil@example.com</field>
+        <field name="work_phone">+971 4 555 0104</field>
+        <field name="mobile_phone">+971 50 555 0104</field>
+    </record>
+</odoo>
