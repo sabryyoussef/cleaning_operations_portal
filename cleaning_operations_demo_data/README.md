@@ -15,6 +15,7 @@ It is intentionally data-only:
 - `portal`
 - `hr`
 - `planning`
+- `cleaning_fsm_portal_executor` (Field Service demo visits + portal executor field)
 
 ## What It Loads
 
@@ -27,6 +28,7 @@ It is intentionally data-only:
 - Four `hr.employee` records aligned with the users
 - One planning role
 - Two planning slots representing weekly-like and monthly-like demo assignments
+- Three `project.task` Field Service demo records (standard `industry_fsm.fsm_project`): two with portal cleaners assigned (`fsm_portal_executor_id`), one unassigned for visibility testing
 
 ## Data Design Notes
 
@@ -45,6 +47,10 @@ For Odoo.sh demo environments, the safe approach is:
 1. Install the module.
 2. Open the created users from Settings.
 3. Set temporary passwords manually or use the standard password reset or invitation flow.
+
+## Addons path (local / Odoo.sh)
+
+This repo root is **`cleaning_operations_portal/`** (sibling of `cleaning_fsm_portal_executor`). Put that **directory** on `addons_path` so Odoo loads both `cleaning_operations_demo_data` and `cleaning_fsm_portal_executor`. See the repository root `README.md`.
 
 ## Limitations
 

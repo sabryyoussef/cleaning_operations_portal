@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Portal users already have read access on project.task via Project (access_task_portal).
+        This rule ORs with existing portal task rules so cleaners see FSM tasks where they are
+        the portal executor, even without project sharing / follower links.
+    -->
+    <record id="project_task_rule_fsm_portal_executor" model="ir.rule">
+        <field name="name">Project/Task: FSM portal executor sees assigned visits</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="domain_force">[
+            ('is_fsm', '=', True),
+            ('fsm_portal_executor_id', '=', user.id),
+        ]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+</odoo>

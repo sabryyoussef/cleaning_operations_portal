@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_fsm_portal_visit_summary_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2 class="mt-0">Portal visit summary</h2>
+                <p class="text-muted small mb-4">
+                    Field Service task — operational evidence from the portal cleaner workflow.
+                </p>
+
+                <table class="table table-sm table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="w-25 align-top text-nowrap">Visit</th>
+                            <td><span t-field="doc.name"/></td>
+                        </tr>
+                        <tr t-if="doc.partner_id">
+                            <th class="align-top text-nowrap">Site / customer</th>
+                            <td>
+                                <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": True}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-top text-nowrap">Field Service</th>
+                            <td>
+                                <span t-if="doc.is_fsm">Yes</span>
+                                <span t-else="">No</span>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.fsm_portal_executor_id">
+                            <th class="align-top text-nowrap">Assigned cleaner (portal)</th>
+                            <td><span t-field="doc.fsm_portal_executor_id"/></td>
+                        </tr>
+                        <tr t-if="doc.planned_date_begin">
+                            <th class="align-top text-nowrap">Planned start</th>
+                            <td><span t-field="doc.planned_date_begin" t-options='{"widget": "datetime"}'/></td>
+                        </tr>
+                        <tr t-if="doc.fsm_portal_started_at">
+                            <th class="align-top text-nowrap">Check-in (portal)</th>
+                            <td><span t-field="doc.fsm_portal_started_at" t-options='{"widget": "datetime"}'/></td>
+                        </tr>
+                        <tr t-if="doc.fsm_portal_late_start">
+                            <th class="align-top text-nowrap">Late check-in</th>
+                            <td>
+                                <span>Yes</span>
+                                <t t-if="doc.fsm_portal_late_start_delay_text">
+                                    (<span t-esc="doc.fsm_portal_late_start_delay_text"/>)
+                                </t>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.fsm_portal_ended_at">
+                            <th class="align-top text-nowrap">Check-out (portal)</th>
+                            <td><span t-field="doc.fsm_portal_ended_at" t-options='{"widget": "datetime"}'/></td>
+                        </tr>
+                        <tr t-if="doc.fsm_portal_visit_duration_text">
+                            <th class="align-top text-nowrap">Duration</th>
+                            <td><span t-field="doc.fsm_portal_visit_duration_text"/></td>
+                        </tr>
+                        <tr t-if="doc.fsm_portal_start_latitude or doc.fsm_portal_start_longitude">
+                            <th class="align-top text-nowrap">Start GPS</th>
+                            <td>
+                                <span t-if="doc.fsm_portal_start_latitude != False and doc.fsm_portal_start_longitude != False"
+                                      t-esc="'%.6f, %.6f' % (doc.fsm_portal_start_latitude, doc.fsm_portal_start_longitude)"/>
+                                <t t-if="doc.fsm_portal_start_accuracy != False">
+                                    <span> (±<span t-esc="int(round(doc.fsm_portal_start_accuracy))"/> m)</span>
+                                </t>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <t t-if="doc.fsm_portal_photo_before or doc.fsm_portal_photo_after">
+                    <h3 class="h5 mt-4">Photo evidence</h3>
+                    <div class="row">
+                        <div class="col-6" t-if="doc.fsm_portal_photo_before">
+                            <p class="fw-bold mb-2">Before</p>
+                            <span
+                                class="d-inline-block"
+                                style="max-width: 100%;"
+                                t-field="doc.fsm_portal_photo_before"
+                                t-options='{"widget": "image"}'
+                            />
+                        </div>
+                        <div class="col-6" t-if="doc.fsm_portal_photo_after">
+                            <p class="fw-bold mb-2">After</p>
+                            <span
+                                class="d-inline-block"
+                                style="max-width: 100%;"
+                                t-field="doc.fsm_portal_photo_after"
+                                t-options='{"widget": "image"}'
+                            />
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_fsm_portal_visit_summary_raw">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="cleaning_fsm_portal_executor.report_fsm_portal_visit_summary_document"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_fsm_portal_visit_summary">
+        <t t-call="cleaning_fsm_portal_executor.report_fsm_portal_visit_summary_raw"/>
+    </template>
+
+    <record id="action_report_fsm_portal_visit_summary" model="ir.actions.report">
+        <field name="name">Portal visit summary</field>
+        <field name="model">project.task</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">cleaning_fsm_portal_executor.report_fsm_portal_visit_summary</field>
+        <field name="report_file">cleaning_fsm_portal_executor.report_fsm_portal_visit_summary</field>
+        <field name="print_report_name">'Visit summary - %s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="project.model_project_task"/>
+        <field name="binding_type">report</field>
+        <field name="group_ids" eval="[(4, ref('project.group_project_user'))]"/>
+    </record>
+</odoo>
