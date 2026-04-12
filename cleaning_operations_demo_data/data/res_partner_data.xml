@@ -53,7 +53,6 @@
         <field name="company_type">person</field>
         <field name="email">nora.hassan@example.com</field>
         <field name="phone">+971 50 555 0101</field>
-        <field name="mobile">+971 50 555 0101</field>
         <field name="function">Operations Manager</field>
     </record>
 
@@ -62,7 +61,6 @@
         <field name="company_type">person</field>
         <field name="email">ahmed.samir@example.com</field>
         <field name="phone">+971 50 555 0102</field>
-        <field name="mobile">+971 50 555 0102</field>
         <field name="function">Cleaner</field>
     </record>
 
@@ -71,7 +69,6 @@
         <field name="company_type">person</field>
         <field name="email">fatima.khaled@example.com</field>
         <field name="phone">+971 50 555 0103</field>
-        <field name="mobile">+971 50 555 0103</field>
         <field name="function">Cleaner</field>
     </record>
 
@@ -80,7 +77,6 @@
         <field name="company_type">person</field>
         <field name="email">omar.nabil@example.com</field>
         <field name="phone">+971 50 555 0104</field>
-        <field name="mobile">+971 50 555 0104</field>
         <field name="function">Cleaner</field>
     </record>
 </odoo>
