@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Extended Field Service demo visits (cleaning_fsm_portal_executor).
+        Loaded after fsm_portal_demo_tasks.xml. noupdate=1: new xml_ids add on upgrade; existing rows unchanged.
+        Placeholder PNGs are minimal 1x1 pixels — swap real photos in UI for hero PDF demos if needed.
+    -->
+    <data noupdate="1">
+        <!-- A / J — Report-ready: complete visit, on-time (early check-in), GPS + before/after placeholders -->
+        <record id="project_task_demo_fsm_scen_harbor_ahmed_done_full" model="project.task">
+            <field name="name">Marina offices — post-renovation sparkle clean (report-ready)</field>
+            <field name="priority">2</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="planned_date_begin">2026-06-10 07:30:00</field>
+            <field name="date_deadline">2026-06-10 10:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-06-10 07:28:00</field>
+            <field name="fsm_portal_ended_at">2026-06-10 08:45:00</field>
+            <field name="fsm_portal_start_latitude">25.0765000</field>
+            <field name="fsm_portal_start_longitude">55.1398000</field>
+            <field name="fsm_portal_start_accuracy">12.0</field>
+            <field name="fsm_portal_photo_before" type="base64" file="cleaning_operations_demo_data/static/demo/visit_before.png"/>
+            <field name="fsm_portal_photo_after" type="base64" file="cleaning_operations_demo_data/static/demo/visit_after.png"/>
+        </record>
+
+        <!-- A — Late but complete: strong PDF with late banner -->
+        <record id="project_task_demo_fsm_scen_anm_fatima_done_late_full" model="project.task">
+            <field name="name">Sterile corridor service — ICU wing (late arrival, completed)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
+            <field name="planned_date_begin">2026-06-12 08:00:00</field>
+            <field name="date_deadline">2026-06-12 12:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-06-12 08:45:00</field>
+            <field name="fsm_portal_ended_at">2026-06-12 10:20:00</field>
+            <field name="fsm_portal_start_latitude">24.4859000</field>
+            <field name="fsm_portal_start_longitude">54.3577000</field>
+            <field name="fsm_portal_start_accuracy">18.5</field>
+            <field name="fsm_portal_photo_before" type="base64" file="cleaning_operations_demo_data/static/demo/visit_before.png"/>
+            <field name="fsm_portal_photo_after" type="base64" file="cleaning_operations_demo_data/static/demo/visit_after.png"/>
+        </record>
+
+        <!-- H/I — Omar full complete on Palm -->
+        <record id="project_task_demo_fsm_scen_palm_omar_done_full" model="project.task">
+            <field name="name">Tower amenity levels — weekend deep clean (completed)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
+            <field name="planned_date_begin">2026-06-14 09:00:00</field>
+            <field name="date_deadline">2026-06-14 13:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-06-14 09:02:00</field>
+            <field name="fsm_portal_ended_at">2026-06-14 11:30:00</field>
+            <field name="fsm_portal_start_latitude">25.1122000</field>
+            <field name="fsm_portal_start_longitude">55.1390000</field>
+            <field name="fsm_portal_start_accuracy">9.0</field>
+            <field name="fsm_portal_photo_before" type="base64" file="cleaning_operations_demo_data/static/demo/visit_before.png"/>
+            <field name="fsm_portal_photo_after" type="base64" file="cleaning_operations_demo_data/static/demo/visit_after.png"/>
+        </record>
+
+        <!-- B — Started, not finished; GPS captured; before photo only (after still uploadable in portal) -->
+        <record id="project_task_demo_fsm_scen_harbor_ahmed_wip_gps" model="project.task">
+            <field name="name">Executive floor turnover — in progress (GPS on file)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_2"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="planned_date_begin">2026-06-18 08:00:00</field>
+            <field name="date_deadline">2026-06-18 11:30:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-06-18 08:05:00</field>
+            <field name="fsm_portal_start_latitude">25.0771000</field>
+            <field name="fsm_portal_start_longitude">55.1402000</field>
+            <field name="fsm_portal_start_accuracy">22.0</field>
+            <field name="fsm_portal_photo_before" type="base64" file="cleaning_operations_demo_data/static/demo/visit_before.png"/>
+        </record>
+
+        <!-- B/F — Started, not finished; no GPS (browser denied / not shared) -->
+        <record id="project_task_demo_fsm_scen_anm_fatima_wip_no_gps" model="project.task">
+            <field name="name">Outpatient clinic reset — in progress (no GPS evidence)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_2"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
+            <field name="planned_date_begin">2026-06-18 10:00:00</field>
+            <field name="date_deadline">2026-06-18 13:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-06-18 10:02:00</field>
+        </record>
+
+        <!-- C / I — Assigned only (My Visits: waiting) -->
+        <record id="project_task_demo_fsm_scen_palm_omar_planned" model="project.task">
+            <field name="name">Sky lounge &amp; pool deck — scheduled standby</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
+            <field name="planned_date_begin">2026-06-20 08:00:00</field>
+            <field name="date_deadline">2026-06-20 12:00:00</field>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <record id="project_task_demo_fsm_scen_harbor_fatima_planned" model="project.task">
+            <field name="name">Harbor View — tenant handover clean (Fatima)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
+            <field name="planned_date_begin">2026-06-21 07:00:00</field>
+            <field name="date_deadline">2026-06-21 10:30:00</field>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <record id="project_task_demo_fsm_scen_anm_ahmed_planned" model="project.task">
+            <field name="name">Medical waste staging room — periodic sanitize (Ahmed)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="planned_date_begin">2026-06-22 06:30:00</field>
+            <field name="date_deadline">2026-06-22 09:00:00</field>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <record id="project_task_demo_fsm_scen_anm_omar_planned_second" model="project.task">
+            <field name="name">Pharmacy back-office — night prep clean (Omar)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
+            <field name="planned_date_begin">2026-06-23 20:00:00</field>
+            <field name="date_deadline">2026-06-23 23:30:00</field>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <!-- D — Small late (12 min), completed -->
+        <record id="project_task_demo_fsm_scen_harbor_ahmed_done_late_12m" model="project.task">
+            <field name="name">Cafeteria &amp; pantry reset — 12 min late, finished</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="planned_date_begin">2026-05-05 07:45:00</field>
+            <field name="date_deadline">2026-05-05 10:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-05-05 07:57:00</field>
+            <field name="fsm_portal_ended_at">2026-05-05 09:15:00</field>
+            <field name="fsm_portal_start_latitude">25.0759000</field>
+            <field name="fsm_portal_start_longitude">55.1385000</field>
+            <field name="fsm_portal_start_accuracy">14.0</field>
+        </record>
+
+        <!-- D — Heavy late (2h+), completed -->
+        <record id="project_task_demo_fsm_scen_anm_fatima_done_late_2h" model="project.task">
+            <field name="name">Emergency spill follow-up — severe delay, closed same day</field>
+            <field name="priority">3</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
+            <field name="planned_date_begin">2026-05-08 06:00:00</field>
+            <field name="date_deadline">2026-05-08 12:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-05-08 08:10:00</field>
+            <field name="fsm_portal_ended_at">2026-05-08 10:00:00</field>
+            <field name="fsm_portal_start_latitude">24.4865000</field>
+            <field name="fsm_portal_start_longitude">54.3580000</field>
+            <field name="fsm_portal_start_accuracy">25.0</field>
+        </record>
+
+        <!-- E — Early check-in, completed -->
+        <record id="project_task_demo_fsm_scen_palm_omar_done_early_checkin" model="project.task">
+            <field name="name">Resident gym refresh — early start, on budget</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
+            <field name="planned_date_begin">2026-05-11 14:00:00</field>
+            <field name="date_deadline">2026-05-11 17:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-05-11 13:40:00</field>
+            <field name="fsm_portal_ended_at">2026-05-11 15:10:00</field>
+            <field name="fsm_portal_start_latitude">25.1130000</field>
+            <field name="fsm_portal_start_longitude">55.1382000</field>
+            <field name="fsm_portal_start_accuracy">11.0</field>
+        </record>
+
+        <!-- K — No planned window; still completed (edge: late flags N/A) -->
+        <record id="project_task_demo_fsm_scen_palm_ahmed_done_no_plan" model="project.task">
+            <field name="name">Concierge-request touch-up — ad-hoc window (no planned start in FSM)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-04-28 09:00:00</field>
+            <field name="fsm_portal_ended_at">2026-04-28 09:45:00</field>
+        </record>
+
+        <!-- F — Done, times only — no GPS, no photos (optional evidence absent) -->
+        <record id="project_task_demo_fsm_scen_harbor_omar_done_times_only" model="project.task">
+            <field name="name">Loading dock hygiene — closed with timestamps only</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_3"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
+            <field name="planned_date_begin">2026-05-15 05:30:00</field>
+            <field name="date_deadline">2026-05-15 08:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-05-15 05:28:00</field>
+            <field name="fsm_portal_ended_at">2026-05-15 07:05:00</field>
+        </record>
+
+        <!-- D/K — Late, not ended (open visit) -->
+        <record id="project_task_demo_fsm_scen_anm_omar_wip_late_not_ended" model="project.task">
+            <field name="name">Sterile storage audit prep — late arrival, still on site</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_2"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
+            <field name="planned_date_begin">2026-06-25 08:00:00</field>
+            <field name="date_deadline">2026-06-25 11:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-06-25 10:30:00</field>
+            <field name="fsm_portal_start_latitude">24.4870000</field>
+            <field name="fsm_portal_start_longitude">54.3585000</field>
+            <field name="fsm_portal_start_accuracy">30.0</field>
+        </record>
+
+        <!-- G — QR / wrong-cleaner narrative: assigned Ahmed; Fatima/Omar should see Access denied on this id -->
+        <record id="project_task_demo_fsm_scen_harbor_qr_demo_ahmed_only" model="project.task">
+            <field name="name">[QR DEMO] Ahmed-only visit — use QR URL after login as Ahmed</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="planned_date_begin">2026-06-27 09:00:00</field>
+            <field name="date_deadline">2026-06-27 12:00:00</field>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <!-- F — Partial photos: before only (after still uploadable) — Fatima Palm -->
+        <record id="project_task_demo_fsm_scen_palm_fatima_wip_before_only" model="project.task">
+            <field name="name">Podium parking detail — before photo captured, after pending</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_2"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
+            <field name="planned_date_begin">2026-06-26 07:00:00</field>
+            <field name="date_deadline">2026-06-26 10:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-06-26 07:05:00</field>
+            <field name="fsm_portal_photo_before" type="base64" file="cleaning_operations_demo_data/static/demo/visit_before.png"/>
+        </record>
+    </data>
+</odoo>
