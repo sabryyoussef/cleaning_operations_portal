@@ -5,7 +5,7 @@
 | File | Purpose |
 |------|---------|
 | **[`Cleaning_Operations_Demo.pdf`](Cleaning_Operations_Demo.pdf)** | **Enhanced** 11-scene demo: polished screenshots, layout for stakeholders, and **placeholder callouts** where additional live captures or future UI will appear. |
-| **[`Odoo_v19_Cleaning_MVP_Assessment.pdf`](Odoo_v19_Cleaning_MVP_Assessment.pdf)** | **MVP assessment** — current scope, gaps, and **Version 2** backlog (image PDF; keep aligned with the [main README](../README.md#version-2-planned)). |
+| **[`Odoo_v19_Cleaning_MVP_Assessment.pdf`](Odoo_v19_Cleaning_MVP_Assessment.pdf)** | **MVP assessment** — current scope, gaps, and remaining backlog (image PDF; keep aligned with the [main README](../README.md#backlog-planned)). |
 
 ## Screenshots (canonical)
 
@@ -17,4 +17,4 @@ The repository root may also contain **`scshots/`** as a duplicate for local cap
 
 ## See also
 
-- **[`../README.md`](../README.md)** — full guide: features, installation, **Version 2** summary, and embedded walkthrough images.
+- **[`../README.md`](../README.md)** — full guide: features, installation, version history (v2 → v4), and embedded walkthrough images.
