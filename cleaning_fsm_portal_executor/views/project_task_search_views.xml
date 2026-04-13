@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_search_form_fsm_portal_filters" model="ir.ui.view">
+        <field name="name">project.task.search.form.fsm.portal.filters</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='open_tasks']" position="after">
+                <separator/>
+                <filter
+                    string="FSM: Portal late check-in"
+                    name="fsm_portal_filter_late"
+                    domain="[('is_fsm', '=', True), ('fsm_portal_late_start', '=', True)]"
+                    groups="project.group_project_user"
+                />
+                <filter
+                    string="FSM: Portal visit in progress"
+                    name="fsm_portal_filter_wip"
+                    domain="[('is_fsm', '=', True), ('fsm_portal_started_at', '!=', False), ('fsm_portal_ended_at', '=', False)]"
+                    groups="project.group_project_user"
+                />
+                <filter
+                    string="FSM: Portal visit ended"
+                    name="fsm_portal_filter_ended"
+                    domain="[('is_fsm', '=', True), ('fsm_portal_ended_at', '!=', False)]"
+                    groups="project.group_project_user"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Cleaning FSM Portal Executor',
-    'version': '19.0.1.1.4',
+    'version': '19.0.1.2.1',
     'category': 'Services/Field Service',
     'summary': 'Assign a portal cleaner to FSM tasks and confirm visit start from the portal',
     'description': """
@@ -22,6 +22,7 @@ Portal execution (v1)
         'security/fsm_portal_executor_security.xml',
         'report/fsm_portal_visit_summary_report.xml',
         'views/project_task_views.xml',
+        'views/project_task_search_views.xml',
         'views/portal_templates.xml',
     ],
     'assets': {
