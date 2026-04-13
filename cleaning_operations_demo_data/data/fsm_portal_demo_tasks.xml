@@ -26,12 +26,14 @@
             <field name="fsm_portal_started" eval="False"/>
         </record>
 
-        <!-- No portal executor: list should stay empty for cleaners until manager assigns -->
+        <!-- No portal executor: list should stay empty for cleaners until manager assigns.
+             Use Planned stage (stage_1): some Odoo.sh / enterprise builds do not expose
+             industry_fsm.planning_project_stage_0 as an xmlid even when other FSM stages exist. -->
         <record id="project_task_demo_fsm_pht_unassigned" model="project.task">
             <field name="name">[DEMO] Glass facade — Palm Heights (unassigned cleaner)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
-            <field name="stage_id" ref="industry_fsm.planning_project_stage_0"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_started" eval="False"/>
         </record>
 
