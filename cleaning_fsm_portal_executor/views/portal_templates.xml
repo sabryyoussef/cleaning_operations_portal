@@ -60,7 +60,10 @@
                         >
                             <div>
                                 <div class="fw-semibold" t-esc="task.display_name"/>
-                                <div class="small text-muted" t-if="task.partner_id">
+                                <div class="small text-muted" t-if="task.fsm_cleaning_site_id">
+                                    <span t-esc="task.fsm_cleaning_site_id.name"/>
+                                </div>
+                                <div class="small text-muted" t-elif="task.partner_id">
                                     <span t-esc="task.partner_id.display_name"/>
                                 </div>
                             </div>
@@ -91,15 +94,27 @@
                 </nav>
                 <t t-if="fsm_portal_site_qr_mismatch">
                     <div class="alert alert-warning py-2 small mb-3" role="alert">
-                        The QR link includes a <strong>site</strong> that does not match this visit’s customer / site.
+                        The QR link includes a <strong>site</strong> that does not match this scheduled visit.
                         Confirm you are on the correct job before starting work.
                     </div>
                 </t>
                 <h1 class="h4 mb-2" t-esc="task.display_name"/>
+                <p class="text-muted small mb-1" t-if="task.fsm_cleaning_site_id">
+                    <span t-esc="task.fsm_cleaning_site_id.name"/>
+                </p>
                 <p class="text-muted small mb-1" t-if="task.partner_id">
                     <span t-esc="task.partner_id.display_name"/>
                 </p>
-                <p class="small mb-3" t-if="task.partner_id and (task.partner_id.contact_address or task.partner_id.city)">
+                <p class="small mb-3" t-if="task.fsm_cleaning_site_id and (task.fsm_cleaning_site_id.street or task.fsm_cleaning_site_id.city)">
+                    <span t-esc="task.fsm_cleaning_site_id.street or ''"/>
+                    <t t-if="task.fsm_cleaning_site_id.street2">
+                        <span t-esc="task.fsm_cleaning_site_id.street2"/>
+                    </t>
+                    <t t-if="task.fsm_cleaning_site_id.city">
+                        <span t-esc="task.fsm_cleaning_site_id.city"/>
+                    </t>
+                </p>
+                <p class="small mb-3" t-elif="task.partner_id and (task.partner_id.contact_address or task.partner_id.city)">
                     <span t-esc="task.partner_id.contact_address or ''"/>
                     <t t-if="task.partner_id.city">
                         <span t-esc="task.partner_id.city"/>

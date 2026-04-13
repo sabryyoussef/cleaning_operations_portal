@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cleaning_site_project_user,cleaning.site project user,model_cleaning_site,project.group_project_user,1,1,1,0
+access_cleaning_fsm_manager_dashboard_project_user,cleaning.fsm.manager.dashboard project user,model_cleaning_fsm_manager_dashboard,project.group_project_user,1,0,0,0

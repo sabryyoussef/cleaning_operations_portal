@@ -96,9 +96,14 @@ class CleaningFsmPortal(http.Controller):
     )
     def portal_fsm_qr_entry(self, task_id, **kwargs):
         """Short URL for QR codes → login if needed, then same visit flow as /my/fsm-visits/<id>."""
+        site_id = request.params.get('site_id')
         site = request.params.get('site')
         path = '/my/fsm-visits/%s' % int(task_id)
-        if site:
+        if site_id:
+            path = '%s?site_id=%s' % (path, quote(str(site_id), safe=''))
+            if site:
+                path = '%s&site=%s' % (path, quote(str(site), safe=''))
+        elif site:
             path = '%s?site=%s' % (path, quote(str(site), safe=''))
         if request.env.user._is_public():
             return request.redirect('/web/login?redirect=%s' % quote(path, safe=''))
@@ -130,8 +135,17 @@ class CleaningFsmPortal(http.Controller):
         task = self._task_for_portal_executor(task_id, user)
         if not task:
             return request.render('cleaning_fsm_portal_executor.portal_fsm_visit_denied', {})
+        site_id_param = request.params.get('site_id')
         site_param = request.params.get('site')
         site_mismatch = False
+        if site_id_param:
+            try:
+                spid = int(site_id_param)
+            except (TypeError, ValueError):
+                site_mismatch = True
+            else:
+                if not task.fsm_cleaning_site_id or task.fsm_cleaning_site_id.id != spid:
+                    site_mismatch = True
         if site_param:
             try:
                 spid = int(site_param)

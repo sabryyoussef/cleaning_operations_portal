@@ -20,6 +20,21 @@
                                 <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": True}'/>
                             </td>
                         </tr>
+                        <tr t-if="doc.fsm_cleaning_site_id">
+                            <th class="align-top text-nowrap">Cleaning site</th>
+                            <td>
+                                <strong t-esc="doc.fsm_cleaning_site_id.name"/>
+                                <div t-if="doc.fsm_cleaning_site_id.street or doc.fsm_cleaning_site_id.city">
+                                    <span t-esc="doc.fsm_cleaning_site_id.street or ''"/>
+                                    <t t-if="doc.fsm_cleaning_site_id.street2">
+                                        <span t-esc="doc.fsm_cleaning_site_id.street2"/>
+                                    </t>
+                                    <t t-if="doc.fsm_cleaning_site_id.city">
+                                        <span t-esc="doc.fsm_cleaning_site_id.city"/>
+                                    </t>
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
                             <th class="align-top text-nowrap">Field Service</th>
                             <td>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="cleaning_fsm_manager_dashboard_main" model="cleaning.fsm.manager.dashboard">
+        <field name="name">Cleaning Operations Overview</field>
+    </record>
+</odoo>

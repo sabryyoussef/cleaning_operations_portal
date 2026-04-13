@@ -9,6 +9,7 @@
                 <attribute name="decoration-danger">fsm_portal_late_start</attribute>
             </xpath>
             <xpath expr="//field[@name='planned_date_begin']" position="after">
+                <field name="fsm_cleaning_site_id" optional="show" string="Cleaning site"/>
                 <field name="fsm_portal_executor_id" optional="show" string="Portal cleaner"/>
                 <field name="fsm_portal_late_start" optional="hide" string="Late (portal)"/>
                 <field name="fsm_portal_started_at" optional="hide" widget="datetime"/>

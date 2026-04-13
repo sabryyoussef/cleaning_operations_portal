@@ -1,7 +1,7 @@
 {
     "name": "Cleaning Operations Demo Data",
     "summary": "Demo-only native data preload for a cleaning operations proof of concept",
-    "version": "19.0.1.1.5",
+    "version": "19.0.1.2.0",
     "category": "Hidden",
     "license": "LGPL-3",
     "author": "Sabry Youssef",
@@ -17,6 +17,7 @@
     "data": [
         "data/res_partner_category_data.xml",
         "data/res_partner_data.xml",
+        "data/cleaning_site_data.xml",
         "data/hr_department_data.xml",
         "data/hr_job_data.xml",
         "data/res_users_data.xml",
