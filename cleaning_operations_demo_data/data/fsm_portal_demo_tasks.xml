@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Field Service demo visits for portal executor workflow (cleaning_fsm_portal_executor).
+        Uses the standard Enterprise FSM project (industry_fsm.fsm_project).
+        No passwords stored here — set portal login passwords after install (Settings or shell).
+    -->
+    <data noupdate="1">
+        <!-- Primary E2E case: Ahmed assigned, not started -->
+        <record id="project_task_demo_fsm_harbor_ahmed" model="project.task">
+            <field name="name">[DEMO] Weekly deep clean — Harbor View Business Center</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <!-- Second portal user visibility: Fatima only -->
+        <record id="project_task_demo_fsm_anm_fatima" model="project.task">
+            <field name="name">[DEMO] Lobby &amp; reception — Al Noor Medical Plaza</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <!-- No portal executor: list should stay empty for cleaners until manager assigns.
+             Use Planned stage (stage_1): some Odoo.sh / enterprise builds do not expose
+             industry_fsm.planning_project_stage_0 as an xmlid even when other FSM stages exist. -->
+        <record id="project_task_demo_fsm_pht_unassigned" model="project.task">
+            <field name="name">[DEMO] Glass facade — Palm Heights (unassigned cleaner)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_started" eval="False"/>
+        </record>
+
+        <!-- Late check-in: planned start before portal Start Visit (manager sees Late + delay text) -->
+        <record id="project_task_demo_fsm_late_checkin" model="project.task">
+            <field name="name">[DEMO] Late check-in — Harbor View (started after plan)</field>
+            <field name="project_id" ref="industry_fsm.fsm_project"/>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
+            <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
+            <field name="planned_date_begin">2026-01-15 08:00:00</field>
+            <field name="date_deadline">2026-01-15 10:00:00</field>
+            <field name="fsm_portal_started" eval="True"/>
+            <field name="fsm_portal_started_at">2026-01-15 08:18:00</field>
+        </record>
+    </data>
+</odoo>

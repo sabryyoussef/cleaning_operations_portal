@@ -17,4 +17,25 @@
         <field name="start_datetime">2026-05-02 08:00:00</field>
         <field name="end_datetime">2026-05-02 12:00:00</field>
     </record>
+<<<<<<< HEAD
+
+    <record id="planning_slot_omar_al_noor_evening" model="planning.slot">
+        <field name="name">Evening shift — SITE-ANM-002 — Omar Nabil</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="role_id" ref="cleaning_operations_demo_data.planning_role_cleaner"/>
+        <field name="employee_id" ref="cleaning_operations_demo_data.hr_employee_cleaner_omar_nabil"/>
+        <field name="start_datetime">2026-06-15 16:00:00</field>
+        <field name="end_datetime">2026-06-15 20:00:00</field>
+    </record>
+
+    <record id="planning_slot_omar_palm_weekend" model="planning.slot">
+        <field name="name">Weekend tower rounds — SITE-PHT-003 — Omar Nabil</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="role_id" ref="cleaning_operations_demo_data.planning_role_cleaner"/>
+        <field name="employee_id" ref="cleaning_operations_demo_data.hr_employee_cleaner_omar_nabil"/>
+        <field name="start_datetime">2026-06-14 07:00:00</field>
+        <field name="end_datetime">2026-06-14 11:00:00</field>
+    </record>
+=======
+>>>>>>> origin/main
 </odoo>
