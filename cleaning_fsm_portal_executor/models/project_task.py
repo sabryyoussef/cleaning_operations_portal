@@ -14,6 +14,12 @@ class ProjectTask(models.Model):
         copy=False,
         help='Operational cleaner (portal user). Separate from internal assignees.',
     )
+    fsm_cleaning_site_id = fields.Many2one(
+        'cleaning.site',
+        string='Cleaning site',
+        copy=False,
+        help='Dedicated site record for this visit (demo-level operational master data).',
+    )
     fsm_portal_started = fields.Boolean(
         string='Visit started (portal)',
         default=False,
@@ -135,18 +141,41 @@ class ProjectTask(models.Model):
         help='Internal: a one-time chatter note was posted when check-in was late (manager-facing alert).',
     )
 
-    @api.depends('is_fsm', 'create_date', 'partner_id')
+    @api.depends('is_fsm', 'create_date', 'partner_id', 'fsm_cleaning_site_id')
     def _compute_fsm_portal_qr_entry_url(self):
         base = self.env['ir.config_parameter'].sudo().get_param('web.base.url', '').rstrip('/')
         for task in self:
             if base and task.id and task.is_fsm:
                 url = '%s/my/fsm-visit/%s' % (base, task.id)
-                # Site id in query helps cleaners confirm the QR matches the scheduled site (Phase 2).
+                params = []
+                # Keep legacy partner-based site hint and add dedicated site id when available.
+                if task.fsm_cleaning_site_id:
+                    params.append('site_id=%s' % int(task.fsm_cleaning_site_id.id))
                 if task.partner_id:
-                    url += '?site=%s' % int(task.partner_id.id)
+                    params.append('site=%s' % int(task.partner_id.id))
+                if params:
+                    url += '?%s' % '&'.join(params)
                 task.fsm_portal_qr_entry_url = url
             else:
                 task.fsm_portal_qr_entry_url = False
+
+    @api.onchange('fsm_cleaning_site_id')
+    def _onchange_fsm_cleaning_site_id(self):
+        for task in self:
+            site = task.fsm_cleaning_site_id
+            if site and site.partner_id and not task.partner_id:
+                task.partner_id = site.partner_id
+
+    @api.constrains('fsm_cleaning_site_id', 'partner_id')
+    def _check_fsm_cleaning_site_partner(self):
+        for task in self:
+            site = task.fsm_cleaning_site_id
+            if not site or not site.partner_id or not task.partner_id:
+                continue
+            if site.partner_id != task.partner_id:
+                raise ValidationError(
+                    _('The selected cleaning site customer must match the task customer/site contact.')
+                )
 
     @api.depends('is_fsm', 'planned_date_begin', 'fsm_portal_started_at')
     def _compute_fsm_portal_late_start(self):

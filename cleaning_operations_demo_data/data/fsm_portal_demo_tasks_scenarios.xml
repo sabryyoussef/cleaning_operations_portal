@@ -16,6 +16,7 @@
             <field name="priority">2</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_harbor_view_business_center"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
             <field name="planned_date_begin">2026-06-10 07:30:00</field>
@@ -35,6 +36,7 @@
             <field name="name">Sterile corridor service — ICU wing (late arrival, completed)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_al_noor_medical_plaza"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
             <field name="planned_date_begin">2026-06-12 08:00:00</field>
@@ -54,6 +56,7 @@
             <field name="name">Tower amenity levels — weekend deep clean (completed)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_palm_heights_residential_tower"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
             <field name="planned_date_begin">2026-06-14 09:00:00</field>
@@ -73,6 +76,7 @@
             <field name="name">Executive floor turnover — in progress (GPS on file)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_harbor_view_business_center"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
             <field name="planned_date_begin">2026-06-18 08:00:00</field>
@@ -90,6 +94,7 @@
             <field name="name">Outpatient clinic reset — in progress (no GPS evidence)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_al_noor_medical_plaza"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
             <field name="planned_date_begin">2026-06-18 10:00:00</field>
@@ -103,6 +108,7 @@
             <field name="name">Sky lounge &amp; pool deck — scheduled standby</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_palm_heights_residential_tower"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
             <field name="planned_date_begin">2026-06-20 08:00:00</field>
@@ -114,6 +120,7 @@
             <field name="name">Harbor View — tenant handover clean (Fatima)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_harbor_view_business_center"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
             <field name="planned_date_begin">2026-06-21 07:00:00</field>
@@ -125,6 +132,7 @@
             <field name="name">Medical waste staging room — periodic sanitize (Ahmed)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_al_noor_medical_plaza"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
             <field name="planned_date_begin">2026-06-22 06:30:00</field>
@@ -136,6 +144,7 @@
             <field name="name">Pharmacy back-office — night prep clean (Omar)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_al_noor_medical_plaza"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
             <field name="planned_date_begin">2026-06-23 20:00:00</field>
@@ -148,6 +157,7 @@
             <field name="name">Cafeteria &amp; pantry reset — 12 min late, finished</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_harbor_view_business_center"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
             <field name="planned_date_begin">2026-05-05 07:45:00</field>
@@ -166,6 +176,7 @@
             <field name="priority">3</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_al_noor_medical_plaza"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
             <field name="planned_date_begin">2026-05-08 06:00:00</field>
@@ -183,6 +194,7 @@
             <field name="name">Resident gym refresh — early start, on budget</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_palm_heights_residential_tower"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
             <field name="planned_date_begin">2026-05-11 14:00:00</field>
@@ -200,6 +212,7 @@
             <field name="name">Concierge-request touch-up — ad-hoc window (no planned start in FSM)</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_palm_heights_residential_tower"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
             <field name="fsm_portal_started" eval="True"/>
@@ -212,6 +225,7 @@
             <field name="name">Loading dock hygiene — closed with timestamps only</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_harbor_view_business_center"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
             <field name="planned_date_begin">2026-05-15 05:30:00</field>
@@ -226,6 +240,7 @@
             <field name="name">Sterile storage audit prep — late arrival, still on site</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_al_noor_medical_plaza"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_omar_nabil"/>
             <field name="planned_date_begin">2026-06-25 08:00:00</field>
@@ -242,6 +257,7 @@
             <field name="name">[QR DEMO] Ahmed-only visit — use QR URL after login as Ahmed</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_harbor_view_business_center"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_ahmed_samir"/>
             <field name="planned_date_begin">2026-06-27 09:00:00</field>
@@ -254,6 +270,7 @@
             <field name="name">Podium parking detail — before photo captured, after pending</field>
             <field name="project_id" ref="industry_fsm.fsm_project"/>
             <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="fsm_cleaning_site_id" ref="cleaning_operations_demo_data.cleaning_site_palm_heights_residential_tower"/>
             <field name="stage_id" ref="industry_fsm.planning_project_stage_1"/>
             <field name="fsm_portal_executor_id" ref="cleaning_operations_demo_data.res_users_cleaner_fatima_khaled"/>
             <field name="planned_date_begin">2026-06-26 07:00:00</field>

@@ -25,6 +25,22 @@
                     domain="[('is_fsm', '=', True), ('fsm_portal_ended_at', '!=', False)]"
                     groups="project.group_project_user"
                 />
+                <filter
+                    string="FSM: Has Cleaning Site"
+                    name="fsm_portal_filter_has_cleaning_site"
+                    domain="[('is_fsm', '=', True), ('fsm_cleaning_site_id', '!=', False)]"
+                    groups="project.group_project_user"
+                />
+            </xpath>
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter
+                    string="FSM Cleaning Site"
+                    name="group_by_fsm_cleaning_site"
+                    domain="[]"
+                    context="{'group_by': 'fsm_cleaning_site_id'}"
+                    groups="project.group_project_user"
+                />
             </xpath>
         </field>
     </record>

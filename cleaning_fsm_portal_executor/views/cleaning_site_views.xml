@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cleaning_site_list" model="ir.ui.view">
+        <field name="name">cleaning.site.list</field>
+        <field name="model">cleaning.site</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="qr_reference"/>
+                <field name="qr_ready"/>
+                <field name="task_count" string="Visits"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cleaning_site_form" model="ir.ui.view">
+        <field name="name">cleaning.site.form</field>
+        <field name="model">cleaning.site</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_open_site_visits"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-tasks"
+                        string="Visits"
+                    >
+                        <field name="task_count" widget="statinfo"/>
+                    </button>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="active"/>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="qr_reference"/>
+                            <field name="qr_ready" readonly="1"/>
+                            <field name="qr_readiness_note" readonly="1"/>
+                        </group>
+                        <group string="Address">
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="city"/>
+                            <field name="state_id"/>
+                            <field name="zip"/>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" placeholder="Manager notes for this site"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cleaning_site_search" model="ir.ui.view">
+        <field name="name">cleaning.site.search</field>
+        <field name="model">cleaning.site</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <filter name="qr_ready" string="QR Ready" domain="[('qr_ready', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cleaning_sites" model="ir.actions.act_window">
+        <field name="name">Cleaning Sites</field>
+        <field name="res_model">cleaning.site</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_cleaning_site_search"/>
+        <field name="context">{'default_active': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a site record for operational cleaning visits.</p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_cleaning_sites"
+        name="Cleaning Sites"
+        parent="project.menu_main_pm"
+        action="action_cleaning_sites"
+        sequence="40"
+        groups="project.group_project_user"
+    />
+</odoo>

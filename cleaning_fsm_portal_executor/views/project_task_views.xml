@@ -20,6 +20,19 @@
                     groups="project.group_project_user"
                 >
                     <field
+                        name="fsm_cleaning_site_id"
+                        nolabel="1"
+                        string="Cleaning Site"
+                        options="{'no_create': False}"
+                        placeholder="Operational site record"
+                    />
+                </div>
+                <div
+                    class="o_row o_row_readonly mb-2"
+                    invisible="not is_fsm or has_template_ancestor or has_project_template"
+                    groups="project.group_project_user"
+                >
+                    <field
                         name="fsm_portal_executor_id"
                         nolabel="1"
                         string="Assigned Cleaner"

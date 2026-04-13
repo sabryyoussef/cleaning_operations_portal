@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cleaning_site_harbor_view_business_center" model="cleaning.site">
+            <field name="name">Harbor View Business Center</field>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_harbor_view_business_center"/>
+            <field name="street">Marina Walk, Tower C</field>
+            <field name="city">Dubai</field>
+            <field name="country_id" ref="base.ae"/>
+            <field name="qr_reference">HVBC-01</field>
+        </record>
+
+        <record id="cleaning_site_al_noor_medical_plaza" model="cleaning.site">
+            <field name="name">Al Noor Medical Plaza</field>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_al_noor_medical_plaza"/>
+            <field name="street">Airport Road, Building A</field>
+            <field name="city">Abu Dhabi</field>
+            <field name="country_id" ref="base.ae"/>
+            <field name="qr_reference">ANMP-01</field>
+        </record>
+
+        <record id="cleaning_site_palm_heights_residential_tower" model="cleaning.site">
+            <field name="name">Palm Heights Residential Tower</field>
+            <field name="partner_id" ref="cleaning_operations_demo_data.res_partner_site_palm_heights_residential_tower"/>
+            <field name="street">Palm Crescent, Tower 7</field>
+            <field name="city">Dubai</field>
+            <field name="country_id" ref="base.ae"/>
+            <field name="qr_reference">PHRT-01</field>
+        </record>
+    </data>
+</odoo>
