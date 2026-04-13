@@ -2,7 +2,7 @@
 
 **Odoo 19** — Field Service visits executed by **portal cleaners**, with optional GPS and photo evidence, late check-in visibility, QR entry URLs, and a printable **Portal visit summary** PDF.
 
-This repository ships two installable addons and a **step-by-step visual guide** (screenshots below). For **print-ready** materials, use the **`doc/`** folder: an **enhanced PDF** with polished scene imagery and **placeholder callouts** where live captures or future UI will land, plus an **MVP assessment** PDF that records **gaps and the Version 2 backlog** (see [Documentation pack (`doc/`)](#documentation-pack-doc)). The editable slide deck remains at the repo root (`cleaning_operations_demo_presentation.pptx` / `.pdf`).
+This repository ships two installable addons and a **step-by-step visual guide** (screenshots below). For **print-ready** materials, use the **`doc/`** folder: an **enhanced PDF** with polished scene imagery and **placeholder callouts** where live captures or future UI will land, plus an **MVP assessment** PDF that records **gaps and the remaining backlog** (see [Documentation pack (`doc/`)](#documentation-pack-doc)). The editable slide deck remains at the repo root (`cleaning_operations_demo_presentation.pptx` / `.pdf`). Development has progressed through **four phases** — see the [version history](#version-1--initial-mvp-main) sections below.
 
 ---
 
@@ -14,7 +14,11 @@ This repository ships two installable addons and a **step-by-step visual guide**
 - [Installation](#installation)
 - [Demo data & users](#demo-data--users)
 - [Documentation pack (`doc/`)](#documentation-pack-doc)
-- [Version 2 (planned)](#version-2-planned)
+- [Version 1 — Initial MVP (main)](#version-1--initial-mvp-main)
+- [Version 2 — Delivered (Phase 2)](#version-2--delivered-phase-2)
+- [Version 3 — Delivered (Phase 3)](#version-3--delivered-phase-3)
+- [Version 4 — Delivered (Phase 4)](#version-4--delivered-phase-4)
+- [Backlog (planned)](#backlog-planned)
 - [Demo Presentation Script](#demo-presentation-script)
 - [Visual walkthrough (11 scenes)](#visual-walkthrough-11-scenes)
 - [Reports](#reports)
@@ -87,22 +91,85 @@ For a concise data inventory, see [`cleaning_operations_demo_data/README.md`](cl
 | Asset | Description |
 |--------|-------------|
 | **[`doc/Cleaning_Operations_Demo.pdf`](doc/Cleaning_Operations_Demo.pdf)** | **Enhanced** 11-scene demo document: high-quality screenshots, layout tuned for presentation, and **placeholder frames / callouts** marking spots reserved for additional live captures or future product UI. Use this as the primary **stakeholder PDF** when you need a polished handout beyond the Markdown walkthrough below. |
-| **[`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`](doc/Odoo_v19_Cleaning_MVP_Assessment.pdf)** | **MVP assessment** — scope, what is covered in this repository, **known gaps**, and items targeted for **Version 2**. (Image-based PDF; keep in sync with the [Version 2](#version-2-planned) summary here.) |
+| **[`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`](doc/Odoo_v19_Cleaning_MVP_Assessment.pdf)** | **MVP assessment** — scope, what is covered in this repository, **known gaps**, and items in the [remaining backlog](#backlog-planned). (Image-based PDF; keep in sync with the backlog section here.) |
 | **[`doc/guide/screenshots/`](doc/guide/screenshots/)** | **`1.png` … `11.png`** — canonical PNGs embedded in this README and aligned with the PDF scenes. |
 | **[`doc/README.md`](doc/README.md)** | Short index of the `doc/` folder. |
 
 ---
 
-## Version 2 (planned)
+## Version 1 — Initial MVP (main)
 
-The **MVP assessment PDF** (`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`) is the detailed source for priorities. At a high level, **Version 2** is expected to build on this MVP with items such as:
+The `main` branch is the foundation. It established the complete portal execution loop for a single cleaner visit.
 
-- **Richer operations model** — e.g. first-class **sites / facilities** (today sites are modeled as `res.partner` records; see [demo data limitations](cleaning_operations_demo_data/README.md#limitations)).
-- **Broader stakeholder experience** — **customer-facing** visibility, SLA-style indicators, or notifications beyond the internal manager + portal cleaner flow.
-- **Hardening for the field** — stronger **mobile** ergonomics, optional **offline** or push-style **reminders** for check-ins (depending on product direction).
-- **Adjacent processes** — **inventory / consumables**, route or multi-visit optimization, or deeper **QR** flows (e.g. wrong-site handling) where the MVP uses illustrative placeholders.
+| Deliverable | Detail |
+|-------------|--------|
+| **Portal cleaner assignment** | `fsm_portal_executor_id` field on `project.task` — one portal user assigned per FSM task, separate from internal `user_ids` assignees. |
+| **My Visits portal list** | Route `/my/fsm-visits` — cleaner sees only their own assigned visits with clear status indicators. |
+| **Visit detail page** | Portal page per visit showing site, planned window, and evidence sections before execution. |
+| **Start Visit** | Check-in timestamp recorded server-side; optional GPS latitude/longitude/accuracy captured from the browser at the moment of start. Graceful fallback when geolocation is unavailable. |
+| **Before / after photo uploads** | Cleaner uploads images directly from the portal visit page; stored as `Image` fields on the task. |
+| **QR entry URL** | Computed short URL `/my/fsm-visit/<task_id>` (with site hint parameters) suitable for encoding in a QR code. Backend PNG endpoint for printing. |
+| **Late check-in flag** | Computed `fsm_portal_late_start` + `fsm_portal_late_start_delay_text` — compares portal check-in time against `planned_date_begin`. |
+| **Portal Visit Summary report** | QWeb PDF report on `project.task` for internal users (requires wkhtmltopdf). |
+| **Security** | `ir.rule` ensuring portal users can only read and act on tasks where they are the assigned portal executor. |
+| **Demo data module** | Partners as sites (Harbor View, Al Noor Medical Plaza, Palm Heights), three portal cleaners, one internal manager, HR/planning scaffolding, and multiple FSM demo tasks covering on-time, late, WIP, and edge scenarios. |
 
-Treat this list as a **roadmap sketch**; refine ordering and scope from the assessment PDF and stakeholder input.
+---
+
+## Version 2 — Delivered (Phase 2)
+
+Phase 2 extended the core portal execution loop with check-out evidence, GPS on photos, and manager alerting.
+
+| Deliverable | Detail |
+|-------------|--------|
+| **End Visit** | Cleaner can end the visit from the portal; check-out timestamp recorded server-side. |
+| **End-of-visit GPS** | Browser geolocation captured at check-out (optional evidence, graceful fallback). |
+| **GPS on photo uploads** | Latitude, longitude, and accuracy stored when the before- and after-photo are uploaded. |
+| **Visit duration** | Auto-computed readable text from portal start → end timestamps. |
+| **Late check-in chatter notice** | One-time chatter entry posted to the task when check-in is after the planned start — manager-facing alert. |
+| **Extended demo scenarios** | Additional scenario-based demo tasks covering completed/WIP/late/wrong-cleaner cases (`fsm_portal_demo_tasks_scenarios.xml`). |
+
+---
+
+## Version 3 — Delivered (Phase 3)
+
+Phase 3 upgraded sites from a `res.partner` workaround to a dedicated first-class operational model and built a site-oriented QR flow on top of it.
+
+| Deliverable | Detail |
+|-------------|--------|
+| **`cleaning.site` model** | Dedicated site record with name, customer linkage, address, QR reference, readiness computation, and task count. Replaces `res.partner` as the site entity. |
+| **Site QR readiness** | Computed `qr_ready` flag and `qr_readiness_note` so the manager can see at a glance if a site is ready for QR deployment. |
+| **Site-based QR entry URL** | New route `/my/fsm-site/<site_id>` — cleaner scans one QR per site, then lands on the correct visit (single redirect) or a site-specific selection list (multiple valid visits). |
+| **Site QR PNG endpoint** | Backend HTTP route `/cleaning_fsm_portal/site_qr_png/<site_id>` to render a downloadable PNG for printing. |
+| **Site management views** | `Cleaning Sites` menu with form, list, and search views for internal managers. |
+| **Demo data with `cleaning.site` records** | Three sites (Harbor View, Al Noor Medical Plaza, Palm Heights) loaded as proper `cleaning.site` rows with QR references and customer linkage. |
+| **Task ↔ site constraint** | Validation that the cleaning site's customer matches the task's customer/site contact. |
+
+---
+
+## Version 4 — Delivered (Phase 4)
+
+Phase 4 added manager-side operational visibility (dashboard + filters) and native Planning recurrence for scheduled visits.
+
+| Deliverable | Detail |
+|-------------|--------|
+| **Manager operational dashboard** | `cleaning.fsm.manager.dashboard` model with KPI cards: total visits, not-started, in-progress, completed, late check-ins, recurring (weekly / monthly) counts. By-cleaner and by-site HTML summary tables. |
+| **Dashboard views & menu** | Dedicated *Operations Dashboard* app entry; lightweight single-screen manager overview for quick drill-down. |
+| **Portal-specific task filters** | Three search filters on Field Service tasks — *Portal late check-in*, *Portal visit in progress*, *Portal visit ended* — for fast manager triage without opening individual records. |
+| **Native Planning recurrence** | Weekly and monthly recurring demo planning shifts created via `post_init_hook` and upgrade migration using Odoo's native `planning.recurrency` (not custom logic). |
+| **Demo presentation script** | Full 19-step live-demo use-case scenario added to this README with speaking notes, screen pointers, and a quick-run order. |
+
+---
+
+## Backlog (planned)
+
+The **MVP assessment PDF** (`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`) is the detailed source. Remaining roadmap items:
+
+- **Broader stakeholder experience** — customer-facing visit visibility, SLA-style indicators, or automated notifications beyond the internal manager + portal cleaner flow.
+- **Hardening for the field** — stronger **mobile** ergonomics, optional **offline** support, or push-style **reminders** for check-ins (depending on product direction).
+- **Adjacent processes** — **inventory / consumables** tracking, route or multi-visit optimization, deeper wrong-site QR handling.
+
+Refine ordering and scope from the assessment PDF and stakeholder input.
 
 ---
 
@@ -526,7 +593,7 @@ Internal users can print a **single-visit summary** (PDF when **wkhtmltopdf** is
 | Asset | Location |
 |--------|----------|
 | **Stakeholder PDF (enhanced scenes + placeholders)** | **`doc/Cleaning_Operations_Demo.pdf`** |
-| **MVP assessment & Version 2 backlog** | **`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`** |
+| **MVP assessment & remaining backlog** | **`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`** |
 | PowerPoint (editable deck) | `cleaning_operations_demo_presentation.pptx` |
 | PDF export of the same deck (repo root) | `cleaning_operations_demo_presentation.pdf` |
 | Screenshot source (duplicate of `doc/guide/screenshots/`) | `scshots/` |
