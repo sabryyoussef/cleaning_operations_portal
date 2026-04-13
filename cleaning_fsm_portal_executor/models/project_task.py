@@ -116,11 +116,6 @@ class ProjectTask(models.Model):
         compute='_compute_fsm_portal_qr_entry_url',
         help='Encode this URL in a QR code so the assigned portal cleaner can open the visit (after login).',
     )
-    fsm_portal_qr_image_url = fields.Char(
-        string='QR preview',
-        compute='_compute_fsm_portal_qr_image_url',
-        help='Relative URL served as PNG (see backend controller). Use widget image_url on the form.',
-    )
     fsm_portal_late_start = fields.Boolean(
         string='Late check-in (vs planned start)',
         compute='_compute_fsm_portal_late_start',
@@ -133,14 +128,6 @@ class ProjectTask(models.Model):
         store=True,
         help='Human-readable lateness when check-in is after the planned start.',
     )
-
-    @api.depends('fsm_portal_qr_entry_url', 'is_fsm')
-    def _compute_fsm_portal_qr_image_url(self):
-        for task in self:
-            if task.id and task.is_fsm and task.fsm_portal_qr_entry_url:
-                task.fsm_portal_qr_image_url = '/cleaning_fsm_portal/fsm_qr_png/%s' % int(task.id)
-            else:
-                task.fsm_portal_qr_image_url = False
 
     @api.depends('is_fsm', 'create_date', 'partner_id')
     def _compute_fsm_portal_qr_entry_url(self):
@@ -237,6 +224,17 @@ class ProjectTask(models.Model):
             'fsm_portal_late_start_delay_text',
         })
         return readable | extra, writeable
+
+    def action_fsm_open_qr_png(self):
+        """Open PNG QR for this task in a new tab."""
+        self.ensure_one()
+        if not self.is_fsm or not self.id:
+            return False
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/cleaning_fsm_portal/fsm_qr_png/%s' % int(self.id),
+            'target': 'new',
+        }
 
     @api.constrains('fsm_portal_executor_id')
     def _check_fsm_portal_executor_id(self):
