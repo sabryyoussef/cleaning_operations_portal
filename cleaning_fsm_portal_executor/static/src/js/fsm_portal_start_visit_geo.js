@@ -1,6 +1,5 @@
-/** Portal Start Visit: optional browser geolocation before POST (resilience-first). */
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("o_fsm_portal_start_visit_form");
+/** Portal FSM: optional browser geolocation before POST (Start Visit + photo uploads). */
+function fsmPortalAttachGeoOnSubmit(form, latSel, lonSel, accSel) {
     if (!form) {
         return;
     }
@@ -9,9 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         ev.preventDefault();
-        const latInput = form.querySelector('input[name="fsm_portal_start_geo_lat"]');
-        const lonInput = form.querySelector('input[name="fsm_portal_start_geo_lon"]');
-        const accInput = form.querySelector('input[name="fsm_portal_start_geo_accuracy"]');
+        const latInput = form.querySelector(latSel);
+        const lonInput = form.querySelector(lonSel);
+        const accInput = form.querySelector(accSel);
         if (!latInput || !lonInput || !accInput) {
             form.dataset.fsmGeoDone = "1";
             form.submit();
@@ -39,4 +38,25 @@ document.addEventListener("DOMContentLoaded", () => {
             { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 }
         );
     });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    fsmPortalAttachGeoOnSubmit(
+        document.getElementById("o_fsm_portal_start_visit_form"),
+        'input[name="fsm_portal_start_geo_lat"]',
+        'input[name="fsm_portal_start_geo_lon"]',
+        'input[name="fsm_portal_start_geo_accuracy"]'
+    );
+    fsmPortalAttachGeoOnSubmit(
+        document.getElementById("o_fsm_portal_photo_before_form"),
+        'input[name="fsm_portal_photo_before_geo_lat"]',
+        'input[name="fsm_portal_photo_before_geo_lon"]',
+        'input[name="fsm_portal_photo_before_geo_accuracy"]'
+    );
+    fsmPortalAttachGeoOnSubmit(
+        document.getElementById("o_fsm_portal_photo_after_form"),
+        'input[name="fsm_portal_photo_after_geo_lat"]',
+        'input[name="fsm_portal_photo_after_geo_lon"]',
+        'input[name="fsm_portal_photo_after_geo_accuracy"]'
+    );
 });
