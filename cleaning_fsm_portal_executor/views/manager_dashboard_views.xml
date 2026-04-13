@@ -11,41 +11,55 @@
                         type="object"
                         string="Refresh"
                         class="btn btn-primary"
+                        icon="fa-refresh"
                     />
                 </header>
                 <sheet>
-                    <h1><field name="name" readonly="1"/></h1>
+                    <div class="oe_title mb-1">
+                        <h1 class="mb-1"><field name="name" readonly="1"/></h1>
+                    </div>
+                    <p class="text-muted mb-2">Operational snapshot for FSM portal execution.</p>
                     <p class="text-muted mb-3">
-                        Operational snapshot for FSM portal execution.
+                        <i class="fa fa-clock-o me-1"/>
+                        Refreshed at <field name="refreshed_at" readonly="1" widget="datetime" class="oe_inline"/>
                     </p>
-                    <group>
-                        <field name="refreshed_at" readonly="1" widget="datetime"/>
-                    </group>
-                    <group col="5" class="mb-3">
-                        <button name="action_open_all" type="object" class="oe_stat_button" icon="fa-list">
-                            <field name="total_visits" widget="statinfo" string="Total FSM Visits"/>
-                        </button>
-                        <button name="action_open_not_started" type="object" class="oe_stat_button" icon="fa-clock-o">
-                            <field name="not_started_visits" widget="statinfo" string="Not Started"/>
-                        </button>
-                        <button name="action_open_in_progress" type="object" class="oe_stat_button" icon="fa-play-circle">
-                            <field name="in_progress_visits" widget="statinfo" string="In Progress"/>
-                        </button>
-                        <button name="action_open_completed" type="object" class="oe_stat_button" icon="fa-check-circle">
-                            <field name="completed_visits" widget="statinfo" string="Completed"/>
-                        </button>
-                        <button name="action_open_late" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
-                            <field name="late_checkins" widget="statinfo" string="Late Check-ins"/>
-                        </button>
-                    </group>
-                    <group col="2">
-                        <group string="By Cleaner">
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-12 col-lg-2">
+                            <button name="action_open_all" type="object" class="oe_stat_button w-100" icon="fa-list">
+                                <field name="total_visits" widget="statinfo" string="Total FSM Visits"/>
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-2">
+                            <button name="action_open_not_started" type="object" class="oe_stat_button w-100" icon="fa-clock-o">
+                                <field name="not_started_visits" widget="statinfo" string="Not Started"/>
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-2">
+                            <button name="action_open_in_progress" type="object" class="oe_stat_button w-100" icon="fa-play-circle">
+                                <field name="in_progress_visits" widget="statinfo" string="In Progress"/>
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-2">
+                            <button name="action_open_completed" type="object" class="oe_stat_button w-100" icon="fa-check-circle">
+                                <field name="completed_visits" widget="statinfo" string="Completed"/>
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-2">
+                            <button name="action_open_late" type="object" class="oe_stat_button w-100" icon="fa-exclamation-triangle">
+                                <field name="late_checkins" widget="statinfo" string="Late Check-ins"/>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-xl-6">
                             <field name="by_cleaner_html" readonly="1" nolabel="1"/>
-                        </group>
-                        <group string="By Site">
+                        </div>
+                        <div class="col-12 col-xl-6">
                             <field name="by_site_html" readonly="1" nolabel="1"/>
-                        </group>
-                    </group>
+                        </div>
+                    </div>
                 </sheet>
             </form>
         </field>
