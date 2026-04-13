@@ -66,6 +66,16 @@
                                 </t>
                             </td>
                         </tr>
+                        <tr t-if="doc.fsm_portal_end_latitude or doc.fsm_portal_end_longitude">
+                            <th class="align-top text-nowrap">End GPS</th>
+                            <td>
+                                <span t-if="doc.fsm_portal_end_latitude != False and doc.fsm_portal_end_longitude != False"
+                                      t-esc="'%.6f, %.6f' % (doc.fsm_portal_end_latitude, doc.fsm_portal_end_longitude)"/>
+                                <t t-if="doc.fsm_portal_end_accuracy != False">
+                                    <span> (±<span t-esc="int(round(doc.fsm_portal_end_accuracy))"/> m)</span>
+                                </t>
+                            </td>
+                        </tr>
                         <tr t-if="doc.fsm_portal_photo_before_latitude or doc.fsm_portal_photo_before_longitude">
                             <th class="align-top text-nowrap">Before photo GPS</th>
                             <td>

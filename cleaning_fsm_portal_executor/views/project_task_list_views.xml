@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_task_view_list_fsm_portal_executor" model="ir.ui.view">
+        <field name="name">project.task.list.fsm.portal.executor</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.project_task_view_list_fsm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-danger">fsm_portal_late_start</attribute>
+            </xpath>
+            <xpath expr="//field[@name='planned_date_begin']" position="after">
+                <field name="fsm_portal_executor_id" optional="show" string="Portal cleaner"/>
+                <field name="fsm_portal_late_start" optional="hide" string="Late (portal)"/>
+                <field name="fsm_portal_started_at" optional="hide" widget="datetime"/>
+                <field name="fsm_portal_ended_at" optional="hide" widget="datetime"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

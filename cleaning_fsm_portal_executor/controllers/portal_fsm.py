@@ -197,8 +197,20 @@ class CleaningFsmPortal(http.Controller):
         if not task.fsm_portal_started or not task.fsm_portal_started_at:
             return request.redirect('/my/fsm-visits/%s?end_err=not_started' % task.id)
         vals = {'fsm_portal_ended_at': fields.Datetime.now()}
+        geo_vals, gps_flag = _fsm_portal_geo_from_request_keys(
+            request.httprequest.form,
+            'fsm_portal_end_geo_lat',
+            'fsm_portal_end_geo_lon',
+            'fsm_portal_end_geo_accuracy',
+            {
+                'lat': 'fsm_portal_end_latitude',
+                'lon': 'fsm_portal_end_longitude',
+                'acc': 'fsm_portal_end_accuracy',
+            },
+        )
+        vals.update(geo_vals)
         task.sudo().write(vals)
-        return request.redirect('/my/fsm-visits/%s?ended=1' % task.id)
+        return request.redirect('/my/fsm-visits/%s?ended=1&gps=%s' % (task.id, gps_flag))
 
     def _portal_fsm_upload_image(self, task, upload, field_name):
         """Return None on success, or short error code string."""
