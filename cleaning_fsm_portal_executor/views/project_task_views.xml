@@ -37,13 +37,12 @@
                     groups="project.group_project_user"
                 >
                     <field name="fsm_portal_qr_entry_url" widget="url" readonly="1"/>
-                    <field
-                        name="fsm_portal_qr_image_url"
-                        widget="image_url"
-                        readonly="1"
-                        nolabel="1"
-                        options="{'size': [0, 180]}"
-                        invisible="not fsm_portal_qr_image_url"
+                    <button
+                        name="action_fsm_open_qr_png"
+                        type="object"
+                        string="Open QR as PNG"
+                        class="btn btn-secondary"
+                        invisible="not fsm_portal_qr_entry_url"
                     />
                 </group>
                 <group
