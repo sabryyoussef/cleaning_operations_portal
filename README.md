@@ -15,6 +15,7 @@ This repository ships two installable addons and a **step-by-step visual guide**
 - [Demo data & users](#demo-data--users)
 - [Documentation pack (`doc/`)](#documentation-pack-doc)
 - [Version 2 (planned)](#version-2-planned)
+- [Demo Presentation Script](#demo-presentation-script)
 - [Visual walkthrough (11 scenes)](#visual-walkthrough-11-scenes)
 - [Reports](#reports)
 - [Presentation assets](#presentation-assets)
@@ -102,6 +103,309 @@ The **MVP assessment PDF** (`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`) is the d
 - **Adjacent processes** — **inventory / consumables**, route or multi-visit optimization, or deeper **QR** flows (e.g. wrong-site handling) where the MVP uses illustrative placeholders.
 
 Treat this list as a **roadmap sketch**; refine ordering and scope from the assessment PDF and stakeholder input.
+
+---
+
+## Demo Presentation Script
+
+A complete, step-by-step narrated workflow for the **Cleaning Operations Platform on Odoo 19**.  
+Use this as your live demo guide — the order, speaking notes, and expected screen results are all here.
+
+> **Speaking style reminders:**  
+> Say **manager** (not admin). Say **cleaner portal flow**. Say **operational evidence**. Say **site-based QR entry**. Say **lightweight operational dashboard**. Say **practical MVP aligned with the brief**.
+
+---
+
+### Step 1 — Opening
+
+> Thank you for your time.  
+> In this demo, I will show a complete cleaning operations workflow built on Odoo 19.  
+> I will start from the manager side, then switch to the cleaner portal flow, and finally show the operational monitoring and reporting side.
+
+---
+
+### Step 2 — Show the dedicated site model
+
+**App:** Cleaning Sites → **Cleaning Sites**
+
+Open a site record such as **Al Noor Medical Plaza**.
+
+> I will start with the site master data.  
+> Here, each cleaning site is managed as a dedicated site record, not only as a task context.  
+> The site contains its name, customer linkage, address information, QR reference, QR readiness status, and a dedicated site QR entry URL.
+
+Point to on screen:
+
+- Name / Customer
+- QR Reference / QR Ready / QR Readiness Note
+- Site QR Entry URL / Open Site QR PNG
+- Address / Task Count
+
+**To create a site live:** enter Name, Customer, QR Reference (e.g. `ANMP-01`), address fields, and an optional note.
+
+> To create a site, the manager enters the site name, customer, QR reference, and address details.  
+> Once the required details are set, the site becomes QR-ready.
+
+---
+
+### Step 3 — Show site QR readiness
+
+**App:** Cleaning Sites → **Cleaning Sites** (same record)
+
+- Show **Site QR Entry URL**
+- Click **Open Site QR PNG**
+
+> Each site has its own dedicated QR entry.  
+> This makes the QR flow site-oriented, so the cleaner arrives at the site, scans the site QR, and enters the correct visit workflow.
+
+Expected: QR image opens, URL is clearly visible, site shows as QR-ready.
+
+---
+
+### Step 4 — Show recurring schedules
+
+**App:** Planning → **Schedule / Planning Board**
+
+Search for recurring demo shifts such as `[DEMO RECUR] Weekly …` and `[DEMO RECUR] Monthly …`.
+
+> The assessment also asked for recurring schedules.  
+> Here I show one weekly recurring cleaning schedule and one monthly recurring cleaning schedule.  
+> Both are clearly linked in the demo naming to a site and a cleaner, so they are easy to demonstrate during review.
+
+Point to: shift name, recurrence pattern, assigned cleaner/resource.
+
+**To create recurrence live:** set Resource / Cleaner, Role, Start / End, Repeat, Repeat Unit (Week or Month), and Repeat Until.
+
+> In this setup, the manager can pre-plan recurring work using native Planning recurrence, which supports operational scheduling for regular site visits.
+
+---
+
+### Step 5 — Show task assignment from manager side
+
+**App:** Field Service → **Tasks**
+
+Open a task such as **Medical waste staging room — periodic sanitize (Ahmed)**.
+
+> Now I move to the manager-side operational task.  
+> The task still lives inside Field Service, but the actual execution is handled through a portal cleaner workflow.
+
+Point to: Task title, Customer / Site, Planned Date, Assigned Cleaner, Portal QR entry, Portal Visit Status.
+
+**To create a task live:** fill Task Title, Project / Field Service, Customer / Site, Planned Date, Assigned Cleaner, and optional description / tags.
+
+> The manager creates the visit task, links it to the site, sets the planned time, and assigns the portal cleaner.  
+> This keeps management inside Odoo while execution is delegated through the portal.
+
+![Scene 2 — Assignment and planned visit](doc/guide/screenshots/2.png)
+
+---
+
+### Step 6 — Show the manager dashboard
+
+**App:** Operations Dashboard
+
+> From the manager side, there is also an operational dashboard.  
+> It gives a lightweight but useful overview of the visit workload, current statuses, late visits, and recurring schedule visibility.
+
+Point to: KPI cards, counts by status, late visits, recurring weekly/monthly counts, cleaner/site summary sections.
+
+> The dashboard is intentionally lightweight.  
+> The goal is not to build a large BI platform, but to give the manager one operational screen for quick understanding and drill-down.
+
+---
+
+### Step 7 — Show manager list / filters
+
+**App:** Field Service → **Tasks** → open filters
+
+> In addition to the dashboard, the manager can quickly triage tasks using portal-specific filters.
+
+Point to:
+
+- **FSM: Portal late check-in**
+- **FSM: Portal visit in progress**
+- **FSM: Portal visit ended**
+
+> These filters make it easy to find delayed visits, active visits, and completed visits without opening tasks one by one.
+
+---
+
+### Step 8 — Switch to portal cleaner
+
+**App:** Portal → **Portal Home / My account**
+
+Log in as a cleaner such as **Ahmed Samir**.
+
+> Now I switch to the cleaner perspective.  
+> The cleaner does not need full backend access.  
+> Instead, the cleaner works through a simplified portal flow.
+
+![Scene 3 — Portal homepage](doc/guide/screenshots/3.png)
+
+---
+
+### Step 9 — Show My Visits
+
+**App:** Portal → **My Visits**
+
+> This is the cleaner's work queue.  
+> The cleaner sees only the visits assigned to them, with clear status indicators such as not started, started, ended, and late.
+
+Point to: visit list, statuses, only assigned visits visible.
+
+![Scene 4 — My Visits list](doc/guide/screenshots/4.png)
+
+---
+
+### Step 10 — Show site-QR flow
+
+**Route:** Open the **Site QR Entry URL** from the site record, or scan the QR code.
+
+> Here I demonstrate the site-based QR flow.  
+> The cleaner scans the site QR code and is routed safely into the site-specific visit flow.
+
+| Scenario | What to say |
+|----------|-------------|
+| One valid visit | *"Since this cleaner has one valid visit for this site, the system redirects directly to the correct visit."* |
+| Multiple valid visits | *"If multiple valid visits exist for the same site, the system can show a site-specific selection list."* |
+| No valid visit | *"If the cleaner has no valid visits for the site, the system shows a safe message without exposing unauthorized data."* |
+
+![Scene 10 — QR / entry URL](doc/guide/screenshots/10.png)
+
+---
+
+### Step 11 — View visit detail before start
+
+**App:** Portal → **My Visits → Open Visit**
+
+> Before starting, the cleaner can see the visit details, the site information, and the evidence sections for before and after photos.
+
+Point to: Not started status, Start Visit button, Before photo section, After photo section.
+
+![Scene 5 — Visit detail before start](doc/guide/screenshots/5.png)
+
+---
+
+### Step 12 — Start Visit
+
+**Action:** Click **Start Visit**
+
+> When the cleaner starts the visit, the system records the check-in timestamp and attempts to capture GPS coordinates from the browser.
+
+Expected: status changes to started, check-in time appears, GPS captured or graceful fallback message shown.
+
+| GPS result | What to say |
+|-----------|-------------|
+| GPS success | *"Here, GPS was captured successfully and stored as operational evidence."* |
+| GPS denied/unavailable | *"If browser geolocation is denied or unavailable, the workflow still continues safely. GPS is treated as supporting evidence, not as a blocking requirement."* |
+
+![Scene 6 — Start visit / GPS fallback](doc/guide/screenshots/6.png)
+
+---
+
+### Step 13 — Upload Before photo
+
+**Section:** Before photo — choose and upload an image.
+
+> The cleaner now uploads the before photo to document the condition of the site before the service is completed.
+
+Expected: upload succeeds, preview appears, GPS on upload stored if available.
+
+---
+
+### Step 14 — Upload After photo
+
+**Section:** After photo — upload a second image.
+
+> After completing the work, the cleaner uploads the after photo.  
+> This creates a simple but effective visual evidence flow for the manager.
+
+![Scene 7 — Before / after photos](doc/guide/screenshots/7.png)
+
+---
+
+### Step 15 — End Visit
+
+**Action:** Click **End Visit**
+
+> Finally, the cleaner ends the visit.  
+> The system records the check-out timestamp, attempts to capture GPS at the end of the visit, and calculates the total visit duration automatically.
+
+Expected: Ended status, check-out time, duration, end GPS if available.
+
+![Scene 8 — Completed visit](doc/guide/screenshots/8.png)
+
+---
+
+### Step 16 — Return to manager task
+
+**App:** Field Service → **Tasks** — open the same task from the backend.
+
+> Back on the manager side, the task now shows the full operational trail:  
+> the assigned cleaner, start time, end time, duration, GPS evidence, and before-and-after photos.
+
+Point to: Assigned Cleaner, Started at, Ended at, Duration, Start GPS, End GPS, Before photo, After photo.
+
+![Scene 1 — Manager-side operational evidence](doc/guide/screenshots/1.png)
+
+---
+
+### Step 17 — Show late check-in alert
+
+**App:** Field Service → **Tasks** — open a late task.
+
+> The solution also supports late check-in visibility.  
+> If the actual start time is later than the planned start, the task is flagged as late.
+
+Point to: Late check-in flag, Late by field, warning banner, chatter note.
+
+> To make this more visible for the manager, the task shows a warning banner, and the event is also logged in chatter as an alert-style record.
+
+![Scene 9 — Late check-in visibility](doc/guide/screenshots/9.png)
+
+---
+
+### Step 18 — Show PDF report
+
+**App:** Field Service → **Task → Print → Portal Visit Summary**
+
+> Finally, the manager can print a visit summary report directly from the interface.  
+> This report gathers the key operational evidence into a single printable document.
+
+Point to: visit name, site/customer, assigned cleaner, planned start, check-in / check-out, duration, late check-in flag, GPS, photos.
+
+![Scene 11 — Visit summary report](doc/guide/screenshots/11.png)
+
+---
+
+### Step 19 — Closing summary
+
+> To summarize, this solution demonstrates a complete cleaning operations workflow on Odoo 19.  
+> It includes dedicated site management, site-based QR entry, recurring schedules, portal cleaner execution, check-in and check-out with timestamps and GPS, photo evidence, late-check alerts, manager operational visibility, and printable reporting.
+>
+> The implementation was intentionally kept practical and lightweight for demo purposes, while still covering the assessment workflow end-to-end.
+
+---
+
+### Quick demo order (abbreviated run)
+
+| # | Topic |
+|---|-------|
+| 1 | Cleaning Sites |
+| 2 | Site QR |
+| 3 | Planning recurrence |
+| 4 | Field Service task |
+| 5 | Operations Dashboard |
+| 6 | Portal My Visits |
+| 7 | Site QR → Visit |
+| 8 | Start Visit |
+| 9 | Before photo |
+| 10 | After photo |
+| 11 | End Visit |
+| 12 | Manager review |
+| 13 | Late alert |
+| 14 | PDF report |
+| 15 | Closing |
 
 ---
 
