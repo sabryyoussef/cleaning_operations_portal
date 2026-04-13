@@ -27,6 +27,7 @@ class CleaningSite(models.Model):
     qr_ready = fields.Boolean(
         string='QR Ready',
         compute='_compute_qr_ready',
+        store=True,
         help='True when the site has enough data for practical QR usage in the demo.',
     )
     qr_readiness_note = fields.Char(
