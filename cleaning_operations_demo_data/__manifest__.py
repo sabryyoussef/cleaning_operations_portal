@@ -1,7 +1,11 @@
 {
     "name": "Cleaning Operations Demo Data",
     "summary": "Demo-only native data preload for a cleaning operations proof of concept",
+<<<<<<< HEAD
     "version": "19.0.1.1.2",
+=======
+    "version": "19.0.1.0.0",
+>>>>>>> origin/main
     "category": "Hidden",
     "license": "LGPL-3",
     "author": "Sabry Youssef",
@@ -11,8 +15,11 @@
         "portal",
         "hr",
         "planning",
+<<<<<<< HEAD
         "industry_fsm",
         "cleaning_fsm_portal_executor",
+=======
+>>>>>>> origin/main
     ],
     "data": [
         "data/res_partner_category_data.xml",
@@ -23,8 +30,11 @@
         "data/hr_employee_data.xml",
         "data/planning_role_data.xml",
         "data/planning_slot_data.xml",
+<<<<<<< HEAD
         "data/fsm_portal_demo_tasks.xml",
         "data/fsm_portal_demo_tasks_scenarios.xml",
+=======
+>>>>>>> origin/main
     ],
     "installable": True,
     "application": False,
