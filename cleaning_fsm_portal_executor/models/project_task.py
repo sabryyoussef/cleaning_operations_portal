@@ -90,6 +90,22 @@ class ProjectTask(models.Model):
         copy=False,
         help='Server time when the portal cleaner clicked End Visit. Set once; not overwritten.',
     )
+    fsm_portal_end_latitude = fields.Float(
+        string='End latitude (portal)',
+        copy=False,
+        digits=(16, 7),
+        help='Browser geolocation at End Visit when available; optional evidence only.',
+    )
+    fsm_portal_end_longitude = fields.Float(
+        string='End longitude (portal)',
+        copy=False,
+        digits=(16, 7),
+    )
+    fsm_portal_end_accuracy = fields.Float(
+        string='End GPS accuracy (m)',
+        copy=False,
+        digits=(16, 1),
+    )
     fsm_portal_visit_duration_text = fields.Char(
         string='Visit duration (portal)',
         compute='_compute_fsm_portal_visit_duration_text',
@@ -99,6 +115,11 @@ class ProjectTask(models.Model):
         string='QR entry URL',
         compute='_compute_fsm_portal_qr_entry_url',
         help='Encode this URL in a QR code so the assigned portal cleaner can open the visit (after login).',
+    )
+    fsm_portal_qr_image_url = fields.Char(
+        string='QR preview',
+        compute='_compute_fsm_portal_qr_image_url',
+        help='Relative URL served as PNG (see backend controller). Use widget image_url on the form.',
     )
     fsm_portal_late_start = fields.Boolean(
         string='Late check-in (vs planned start)',
@@ -112,6 +133,14 @@ class ProjectTask(models.Model):
         store=True,
         help='Human-readable lateness when check-in is after the planned start.',
     )
+
+    @api.depends('fsm_portal_qr_entry_url', 'is_fsm')
+    def _compute_fsm_portal_qr_image_url(self):
+        for task in self:
+            if task.id and task.is_fsm and task.fsm_portal_qr_entry_url:
+                task.fsm_portal_qr_image_url = '/cleaning_fsm_portal/fsm_qr_png/%s' % int(task.id)
+            else:
+                task.fsm_portal_qr_image_url = False
 
     @api.depends('is_fsm', 'create_date', 'partner_id')
     def _compute_fsm_portal_qr_entry_url(self):
@@ -201,6 +230,9 @@ class ProjectTask(models.Model):
             'fsm_portal_start_latitude',
             'fsm_portal_start_longitude',
             'fsm_portal_start_accuracy',
+            'fsm_portal_end_latitude',
+            'fsm_portal_end_longitude',
+            'fsm_portal_end_accuracy',
             'fsm_portal_late_start',
             'fsm_portal_late_start_delay_text',
         })

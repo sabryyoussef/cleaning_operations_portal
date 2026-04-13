@@ -59,4 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
         'input[name="fsm_portal_photo_after_geo_lon"]',
         'input[name="fsm_portal_photo_after_geo_accuracy"]'
     );
+    fsmPortalAttachGeoOnSubmit(
+        document.getElementById("o_fsm_portal_end_visit_form"),
+        'input[name="fsm_portal_end_geo_lat"]',
+        'input[name="fsm_portal_end_geo_lon"]',
+        'input[name="fsm_portal_end_geo_accuracy"]'
+    );
 });

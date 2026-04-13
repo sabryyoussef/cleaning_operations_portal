@@ -176,7 +176,17 @@
                         End Visit is available only after Start Visit with a check-in time. Use Start Visit first.
                     </div>
                 </t>
-                <t t-if="request.params.get('ended') == '1'">
+                <t t-if="request.params.get('ended') == '1' and request.params.get('gps') == 'ok'">
+                    <div class="alert alert-success py-2 small" role="alert">
+                        Visit ended. Check-out saved and location captured.
+                    </div>
+                </t>
+                <t t-if="request.params.get('ended') == '1' and request.params.get('gps') == 'miss'">
+                    <div class="alert alert-info py-2 small" role="alert">
+                        Visit ended. Check-out saved; GPS at check-out was not captured.
+                    </div>
+                </t>
+                <t t-if="request.params.get('ended') == '1' and request.params.get('gps') != 'ok' and request.params.get('gps') != 'miss'">
                     <div class="alert alert-success py-2 small" role="alert">Visit ended. Check-out time saved.</div>
                 </t>
                 <t t-if="request.params.get('started') == '1' and request.params.get('gps') == 'ok'">
@@ -217,8 +227,6 @@
                 >
                     Start GPS: not captured.
                 </p>
-                <p t-if="task.fsm_portal_ended_at" class="text-muted small mb-3">This visit has ended.</p>
-
                 <h2 class="h6 mt-4 mb-3">Photo evidence</h2>
                 <!-- Order: Before first, then After (no enforced workflow between them). -->
                 <div class="mb-4 pb-3 border-bottom">
@@ -312,12 +320,35 @@
 
                 <div class="mt-4 pt-3 border-top" t-if="task.fsm_portal_started and not task.fsm_portal_ended_at">
                     <h2 class="h6 mb-2">End visit</h2>
-                    <p class="small text-muted mb-2">Finish on site, then tap End Visit to record check-out time.</p>
-                    <form t-attf-action="/my/fsm-visits/{{ task.id }}/end" method="post">
+                    <p class="small text-muted mb-2">Finish on site, then tap End Visit to record check-out time (optional GPS, same as start).</p>
+                    <form
+                        id="o_fsm_portal_end_visit_form"
+                        t-attf-action="/my/fsm-visits/{{ task.id }}/end"
+                        method="post"
+                    >
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="fsm_portal_end_geo_lat" value=""/>
+                        <input type="hidden" name="fsm_portal_end_geo_lon" value=""/>
+                        <input type="hidden" name="fsm_portal_end_geo_accuracy" value=""/>
                         <button type="submit" class="btn btn-primary w-100 w-md-auto">End Visit</button>
                     </form>
                 </div>
+                <p t-if="task.fsm_portal_ended_at" class="text-muted small mt-3 mb-2">This visit has ended.</p>
+                <p
+                    t-if="task.fsm_portal_ended_at and task.fsm_portal_end_latitude != False and task.fsm_portal_end_longitude != False"
+                    class="small text-muted mb-2"
+                >
+                    End GPS: <span t-esc="'%.6f, %.6f' % (task.fsm_portal_end_latitude, task.fsm_portal_end_longitude)"/>
+                    <t t-if="task.fsm_portal_end_accuracy != False">
+                        <span class="text-nowrap"> (±<span t-esc="int(round(task.fsm_portal_end_accuracy))"/> m)</span>
+                    </t>
+                </p>
+                <p
+                    t-if="task.fsm_portal_ended_at and (task.fsm_portal_end_latitude == False or task.fsm_portal_end_longitude == False)"
+                    class="small text-muted mb-2"
+                >
+                    End GPS: not captured.
+                </p>
             </div>
         </t>
     </template>
