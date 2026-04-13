@@ -63,6 +63,36 @@
                     </div>
 
                     <div class="row g-3">
+                        <div class="col-12">
+                            <div class="row g-2 mb-1">
+                                <div class="col-12 col-lg-6">
+                                    <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:10px; padding:10px;">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <div class="fw-semibold">Recurring Weekly Schedules</div>
+                                                <div class="text-muted small">Planning slots tagged weekly</div>
+                                            </div>
+                                            <button name="action_open_weekly_schedules" type="object" class="oe_stat_button" icon="fa-repeat">
+                                                <field name="recurring_weekly_count" widget="statinfo" string="Weekly"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div style="background:#fff1f2; border:1px solid #fecdd3; border-radius:10px; padding:10px;">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <div class="fw-semibold">Recurring Monthly Schedules</div>
+                                                <div class="text-muted small">Planning slots tagged monthly</div>
+                                            </div>
+                                            <button name="action_open_monthly_schedules" type="object" class="oe_stat_button" icon="fa-calendar">
+                                                <field name="recurring_monthly_count" widget="statinfo" string="Monthly"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 col-xl-6">
                             <field name="by_cleaner_html" readonly="1" nolabel="1"/>
                         </div>

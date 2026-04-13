@@ -212,6 +212,11 @@
                         Visit started, but GPS could not be captured (permission denied, timeout, or unavailable).
                     </div>
                 </t>
+                <t t-if="request.params.get('start_err') == 'site_mismatch_unconfirmed'">
+                    <div class="alert alert-warning py-2 small" role="alert">
+                        Start was blocked. Confirm the site mismatch warning before starting this visit.
+                    </div>
+                </t>
                 <form
                     t-if="not task.fsm_portal_started"
                     id="o_fsm_portal_start_visit_form"
@@ -222,6 +227,13 @@
                     <input type="hidden" name="fsm_portal_start_geo_lat" value=""/>
                     <input type="hidden" name="fsm_portal_start_geo_lon" value=""/>
                     <input type="hidden" name="fsm_portal_start_geo_accuracy" value=""/>
+                    <input type="hidden" name="fsm_portal_site_qr_mismatch" t-att-value="'1' if fsm_portal_site_qr_mismatch else '0'"/>
+                    <div t-if="fsm_portal_site_qr_mismatch" class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="fsm_portal_qr_mismatch_ack" value="1" id="fsm_qr_mismatch_ack" required="required"/>
+                        <label class="form-check-label small" for="fsm_qr_mismatch_ack">
+                            I confirm I am at the correct visit location and want to proceed.
+                        </label>
+                    </div>
                     <button type="submit" class="btn btn-primary w-100 w-md-auto">Start Visit</button>
                 </form>
                 <p t-if="task.fsm_portal_started and task.fsm_portal_started_at and not task.fsm_portal_ended_at" class="text-muted small mb-3">
