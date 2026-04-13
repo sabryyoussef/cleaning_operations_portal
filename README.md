@@ -133,30 +133,34 @@ Phase 2 extended the core portal execution loop with check-out evidence, GPS on 
 
 ## Version 3 — Delivered (Phase 3)
 
-Phase 3 upgraded sites from a `res.partner` workaround to a dedicated first-class operational model and built a site-oriented QR flow on top of it.
+Phase 3 introduced dedicated cleaning sites and manager-side operational visibility while keeping the portal execution flow from earlier phases.
 
 | Deliverable | Detail |
 |-------------|--------|
-| **`cleaning.site` model** | Dedicated site record with name, customer linkage, address, QR reference, readiness computation, and task count. Replaces `res.partner` as the site entity. |
-| **Site QR readiness** | Computed `qr_ready` flag and `qr_readiness_note` so the manager can see at a glance if a site is ready for QR deployment. |
-| **Site-based QR entry URL** | New route `/my/fsm-site/<site_id>` — cleaner scans one QR per site, then lands on the correct visit (single redirect) or a site-specific selection list (multiple valid visits). |
-| **Site QR PNG endpoint** | Backend HTTP route `/cleaning_fsm_portal/site_qr_png/<site_id>` to render a downloadable PNG for printing. |
-| **Site management views** | `Cleaning Sites` menu with form, list, and search views for internal managers. |
-| **Demo data with `cleaning.site` records** | Three sites (Harbor View, Al Noor Medical Plaza, Palm Heights) loaded as proper `cleaning.site` rows with QR references and customer linkage. |
-| **Task ↔ site constraint** | Validation that the cleaning site's customer matches the task's customer/site contact. |
+| **`cleaning.site` model** | Dedicated site record with customer linkage, address fields, QR reference, readiness computation, note, and visit count. Replaces `res.partner` as the site entity. |
+| **Task ↔ site linkage** | `fsm_cleaning_site_id` on `project.task`, auto-fills the customer when possible and validates site/customer consistency. |
+| **Site management UI** | `Cleaning Sites` menu with list and form views for internal managers, including visit drill-down from the site record. |
+| **Site QR readiness** | Computed `qr_ready` flag and `qr_readiness_note` so the manager can see whether a site is ready for QR deployment. |
+| **Manager operational dashboard** | Lightweight **Operations Dashboard** app entry with KPI cards for total, not started, in progress, completed, and late visits. |
+| **Manager summaries** | Dashboard sections aggregate visits by cleaner and by site for quick operational review. |
+| **Portal-specific task filters** | Search filters for portal late check-in, in-progress visits, ended visits, and tasks linked to a cleaning site. |
+| **Group by cleaning site** | Search view support for grouping Field Service tasks by dedicated cleaning site. |
+| **Dedicated site demo data** | Three `cleaning.site` records loaded for Harbor View, Al Noor Medical Plaza, and Palm Heights. |
 
 ---
 
 ## Version 4 — Delivered (Phase 4)
 
-Phase 4 added manager-side operational visibility (dashboard + filters) and native Planning recurrence for scheduled visits.
+Phase 4 added site-based QR entry, recurring planning support, and the final demo-facing presentation layer.
 
 | Deliverable | Detail |
 |-------------|--------|
-| **Manager operational dashboard** | `cleaning.fsm.manager.dashboard` model with KPI cards: total visits, not-started, in-progress, completed, late check-ins, recurring (weekly / monthly) counts. By-cleaner and by-site HTML summary tables. |
-| **Dashboard views & menu** | Dedicated *Operations Dashboard* app entry; lightweight single-screen manager overview for quick drill-down. |
-| **Portal-specific task filters** | Three search filters on Field Service tasks — *Portal late check-in*, *Portal visit in progress*, *Portal visit ended* — for fast manager triage without opening individual records. |
+| **Site-based QR entry URL** | `cleaning.site` now computes a dedicated site QR URL so a cleaner can scan once at the site and land in the correct visit flow. |
+| **Site QR landing flow** | New routes `/my/fsm-site/<site_id>` and `/my/fsm-sites/<site_id>` support redirect-to-single-visit, multi-visit selection, and safe no-visit handling. |
+| **Site QR PNG endpoint** | Backend HTTP route `/cleaning_fsm_portal/site_qr_png/<site_id>` renders a printable QR image for each site. |
+| **Site QR actions in backend** | Site form exposes the QR entry URL and an action to open the QR PNG directly from the manager UI. |
 | **Native Planning recurrence** | Weekly and monthly recurring demo planning shifts created via `post_init_hook` and upgrade migration using Odoo's native `planning.recurrency` (not custom logic). |
+| **Recurring dashboard metrics** | Dashboard now shows weekly and monthly recurring schedule counts with drill-down actions into matching planning slots. |
 | **Demo presentation script** | Full 19-step live-demo use-case scenario added to this README with speaking notes, screen pointers, and a quick-run order. |
 
 ---

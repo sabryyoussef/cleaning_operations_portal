@@ -17,4 +17,4 @@ The repository root may also contain **`scshots/`** as a duplicate for local cap
 
 ## See also
 
-- **[`../README.md`](../README.md)** — full guide: features, installation, version history (v2 → v4), and embedded walkthrough images.
+- **[`../README.md`](../README.md)** — full guide: features, installation, version history (v1 → v4), and embedded walkthrough images.
