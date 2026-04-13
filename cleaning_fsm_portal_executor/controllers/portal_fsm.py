@@ -176,7 +176,7 @@ class CleaningFsmPortal(http.Controller):
         user = request.env.user
         task = self._task_for_portal_executor(task_id, user)
         if not task:
-            return request.not_found()
+            raise request.not_found()
         if task.fsm_portal_started:
             return request.redirect('/my/fsm-visits/%s' % task.id)
         vals = {'fsm_portal_started': True}
@@ -204,7 +204,7 @@ class CleaningFsmPortal(http.Controller):
         user = request.env.user
         task = self._task_for_portal_executor(task_id, user)
         if not task:
-            return request.not_found()
+            raise request.not_found()
         if task.fsm_portal_ended_at:
             return request.redirect('/my/fsm-visits/%s' % task.id)
         # Require both flag and check-in timestamp (consistent start evidence, not boolean alone).
@@ -257,7 +257,7 @@ class CleaningFsmPortal(http.Controller):
         user = request.env.user
         task = self._task_for_portal_executor(task_id, user)
         if not task:
-            return request.not_found()
+            raise request.not_found()
         if task.fsm_portal_ended_at:
             return request.redirect('/my/fsm-visits/%s' % task.id)
         if task.fsm_portal_photo_before:
@@ -297,7 +297,7 @@ class CleaningFsmPortal(http.Controller):
         user = request.env.user
         task = self._task_for_portal_executor(task_id, user)
         if not task:
-            return request.not_found()
+            raise request.not_found()
         if task.fsm_portal_ended_at:
             return request.redirect('/my/fsm-visits/%s' % task.id)
         if task.fsm_portal_photo_after:
