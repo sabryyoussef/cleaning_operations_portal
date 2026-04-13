@@ -17,7 +17,6 @@
         <field name="start_datetime">2026-05-02 08:00:00</field>
         <field name="end_datetime">2026-05-02 12:00:00</field>
     </record>
-<<<<<<< HEAD
 
     <record id="planning_slot_omar_al_noor_evening" model="planning.slot">
         <field name="name">Evening shift — SITE-ANM-002 — Omar Nabil</field>
@@ -36,6 +35,4 @@
         <field name="start_datetime">2026-06-14 07:00:00</field>
         <field name="end_datetime">2026-06-14 11:00:00</field>
     </record>
-=======
->>>>>>> origin/main
 </odoo>
