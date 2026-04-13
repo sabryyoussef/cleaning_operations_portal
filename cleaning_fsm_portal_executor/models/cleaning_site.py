@@ -32,7 +32,7 @@ class CleaningSite(models.Model):
     )
     qr_readiness_note = fields.Char(
         string='QR Readiness Note',
-        compute='_compute_qr_ready',
+        compute='_compute_qr_readiness_note',
     )
     note = fields.Text()
     task_ids = fields.One2many('project.task', 'fsm_cleaning_site_id', string='Visits')
@@ -55,21 +55,24 @@ class CleaningSite(models.Model):
     @api.depends('name', 'partner_id', 'street', 'city', 'country_id', 'qr_reference')
     def _compute_qr_ready(self):
         for site in self:
-            has_address = bool(site.street or site.city or site.country_id)
-            has_partner = bool(site.partner_id)
-            if not site.name:
-                site.qr_ready = False
-                site.qr_readiness_note = _('Missing site name.')
-                continue
-            if has_partner or has_address:
-                site.qr_ready = True
-                if site.qr_reference:
-                    site.qr_readiness_note = _('Ready: site details and QR reference are set.')
-                else:
-                    site.qr_readiness_note = _('Ready: site details are set (QR reference optional).')
-            else:
-                site.qr_ready = False
-                site.qr_readiness_note = _('Add customer or address details to make this site QR-ready.')
+            site.qr_ready = site._get_qr_readiness_data()[0]
+
+    @api.depends('name', 'partner_id', 'street', 'city', 'country_id', 'qr_reference')
+    def _compute_qr_readiness_note(self):
+        for site in self:
+            site.qr_readiness_note = site._get_qr_readiness_data()[1]
+
+    def _get_qr_readiness_data(self):
+        self.ensure_one()
+        has_address = bool(self.street or self.city or self.country_id)
+        has_partner = bool(self.partner_id)
+        if not self.name:
+            return False, _('Missing site name.')
+        if has_partner or has_address:
+            if self.qr_reference:
+                return True, _('Ready: site details and QR reference are set.')
+            return True, _('Ready: site details are set (QR reference optional).')
+        return False, _('Add customer or address details to make this site QR-ready.')
 
     @api.onchange('partner_id')
     def _onchange_partner_id_address(self):
