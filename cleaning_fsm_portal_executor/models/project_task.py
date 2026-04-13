@@ -128,6 +128,12 @@ class ProjectTask(models.Model):
         store=True,
         help='Human-readable lateness when check-in is after the planned start.',
     )
+    fsm_portal_late_notice_posted = fields.Boolean(
+        string='Late check-in chatter notice posted',
+        default=False,
+        copy=False,
+        help='Internal: a one-time chatter note was posted when check-in was late (manager-facing alert).',
+    )
 
     @api.depends('is_fsm', 'create_date', 'partner_id')
     def _compute_fsm_portal_qr_entry_url(self):
@@ -226,6 +232,31 @@ class ProjectTask(models.Model):
         })
         return readable | extra, writeable
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        tasks = super().create(vals_list)
+        if not self.env.context.get('fsm_portal_skip_late_notice'):
+            tasks.flush_recordset(
+                ['fsm_portal_late_start', 'fsm_portal_late_start_delay_text', 'fsm_portal_late_notice_posted']
+            )
+            tasks._fsm_portal_post_late_checkin_notice()
+        return tasks
+
+    def _fsm_portal_post_late_checkin_notice(self):
+        """Post a single internal chatter note when a visit becomes late (brief-friendly alert)."""
+        odoobot = self.env.ref('base.partner_root', raise_if_not_found=False)
+        author_id = odoobot.id if odoobot else self.env.user.partner_id.id
+        for task in self.filtered(lambda t: t.is_fsm and t.fsm_portal_late_start and not t.fsm_portal_late_notice_posted):
+            delay = task.fsm_portal_late_start_delay_text or task.env._('(delay unknown)')
+            body = task.env._('Late check-in alert: portal start is after the planned start (%s).') % delay
+            task.sudo().message_post(
+                body=body,
+                message_type='notification',
+                subtype_xmlid='mail.mt_note',
+                author_id=author_id,
+            )
+            task.with_context(fsm_portal_skip_late_notice=True).sudo().write({'fsm_portal_late_notice_posted': True})
+
     def action_fsm_open_qr_png(self):
         """Open PNG QR for this task in a new tab."""
         self.ensure_one()
@@ -255,4 +286,8 @@ class ProjectTask(models.Model):
         # May be tightened later (e.g. allow-list of field keys for portal) if needed.
         if not self.env.su and self.env.user.has_group('base.group_portal'):
             raise AccessError(_('Portal users cannot edit tasks from the backend.'))
-        return super().write(vals)
+        if self.env.context.get('fsm_portal_skip_late_notice'):
+            return super().write(vals)
+        res = super().write(vals)
+        self._fsm_portal_post_late_checkin_notice()
+        return res

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Cleaning FSM Portal Executor',
-    'version': '19.0.1.3.6',
+    'version': '19.0.1.3.7',
     'category': 'Services/Field Service',
     'summary': 'Assign a portal cleaner to FSM tasks and confirm visit start from the portal',
     'description': """
