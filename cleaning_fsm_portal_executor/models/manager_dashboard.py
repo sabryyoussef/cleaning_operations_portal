@@ -23,7 +23,12 @@ class CleaningFsmManagerDashboard(models.Model):
 
     def _render_group_table(self, rows, title):
         if not rows:
-            return Markup('<p class="text-muted mb-0">%s</p>') % escape(_('No data yet.'))
+            return Markup(
+                '<div class="border rounded p-3 bg-white">'
+                '<h5 class="mb-2">%s</h5>'
+                '<p class="text-muted mb-0">%s</p>'
+                '</div>'
+            ) % (escape(title), escape(_('No data yet.')))
         body = ''.join(
             '<tr><td>%s</td><td class="text-end">%s</td></tr>' % (
                 escape(label),
@@ -32,9 +37,9 @@ class CleaningFsmManagerDashboard(models.Model):
             for label, count in rows
         )
         return Markup(
-            '<div class="o_dashboard_block">'
-            '<h4 class="mb-2">%s</h4>'
-            '<table class="table table-sm table-hover mb-0">'
+            '<div class="border rounded p-3 bg-white h-100">'
+            '<h5 class="mb-2">%s</h5>'
+            '<table class="table table-sm table-hover align-middle mb-0">'
             '<thead><tr><th>%s</th><th class="text-end">%s</th></tr></thead>'
             '<tbody>%s</tbody></table></div>'
         ) % (escape(title), escape(_('Group')), escape(_('Visits')), Markup(body))
