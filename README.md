@@ -2,7 +2,7 @@
 
 **Odoo 19** — Field Service visits executed by **portal cleaners**, with optional GPS and photo evidence, late check-in visibility, QR entry URLs, and a printable **Portal visit summary** PDF.
 
-This repository ships two installable addons and a **step-by-step visual guide** (screenshots below) aligned with the demo presentation (`cleaning_operations_demo_presentation.pptx` / `.pdf` in the repo root).
+This repository ships two installable addons and a **step-by-step visual guide** (screenshots below). For **print-ready** materials, use the **`doc/`** folder: an **enhanced PDF** with polished scene imagery and **placeholder callouts** where live captures or future UI will land, plus an **MVP assessment** PDF that records **gaps and the Version 2 backlog** (see [Documentation pack (`doc/`)](#documentation-pack-doc)). The editable slide deck remains at the repo root (`cleaning_operations_demo_presentation.pptx` / `.pdf`).
 
 ---
 
@@ -13,6 +13,8 @@ This repository ships two installable addons and a **step-by-step visual guide**
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Demo data & users](#demo-data--users)
+- [Documentation pack (`doc/`)](#documentation-pack-doc)
+- [Version 2 (planned)](#version-2-planned)
 - [Visual walkthrough (11 scenes)](#visual-walkthrough-11-scenes)
 - [Reports](#reports)
 - [Presentation assets](#presentation-assets)
@@ -79,9 +81,33 @@ For a concise data inventory, see [`cleaning_operations_demo_data/README.md`](cl
 
 ---
 
+## Documentation pack (`doc/`)
+
+| Asset | Description |
+|--------|-------------|
+| **[`doc/Cleaning_Operations_Demo.pdf`](doc/Cleaning_Operations_Demo.pdf)** | **Enhanced** 11-scene demo document: high-quality screenshots, layout tuned for presentation, and **placeholder frames / callouts** marking spots reserved for additional live captures or future product UI. Use this as the primary **stakeholder PDF** when you need a polished handout beyond the Markdown walkthrough below. |
+| **[`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`](doc/Odoo_v19_Cleaning_MVP_Assessment.pdf)** | **MVP assessment** — scope, what is covered in this repository, **known gaps**, and items targeted for **Version 2**. (Image-based PDF; keep in sync with the [Version 2](#version-2-planned) summary here.) |
+| **[`doc/guide/screenshots/`](doc/guide/screenshots/)** | **`1.png` … `11.png`** — canonical PNGs embedded in this README and aligned with the PDF scenes. |
+| **[`doc/README.md`](doc/README.md)** | Short index of the `doc/` folder. |
+
+---
+
+## Version 2 (planned)
+
+The **MVP assessment PDF** (`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`) is the detailed source for priorities. At a high level, **Version 2** is expected to build on this MVP with items such as:
+
+- **Richer operations model** — e.g. first-class **sites / facilities** (today sites are modeled as `res.partner` records; see [demo data limitations](cleaning_operations_demo_data/README.md#limitations)).
+- **Broader stakeholder experience** — **customer-facing** visibility, SLA-style indicators, or notifications beyond the internal manager + portal cleaner flow.
+- **Hardening for the field** — stronger **mobile** ergonomics, optional **offline** or push-style **reminders** for check-ins (depending on product direction).
+- **Adjacent processes** — **inventory / consumables**, route or multi-visit optimization, or deeper **QR** flows (e.g. wrong-site handling) where the MVP uses illustrative placeholders.
+
+Treat this list as a **roadmap sketch**; refine ordering and scope from the assessment PDF and stakeholder input.
+
+---
+
 ## Visual walkthrough (11 scenes)
 
-Screenshots live in **`doc/guide/screenshots/`** (same content as the slide deck). Use this section as a **narrated demo script** for stakeholders or QA.
+Screenshots live in **`doc/guide/screenshots/`** (same scenes as the PDF pack and slide deck). Use this section as a **narrated demo script** for stakeholders or QA.
 
 ### Scene 1 — Manager-side operational evidence overview
 
@@ -195,8 +221,10 @@ Internal users can print a **single-visit summary** (PDF when **wkhtmltopdf** is
 
 | Asset | Location |
 |--------|----------|
-| PowerPoint | `cleaning_operations_demo_presentation.pptx` |
-| PDF | `cleaning_operations_demo_presentation.pdf` |
+| **Stakeholder PDF (enhanced scenes + placeholders)** | **`doc/Cleaning_Operations_Demo.pdf`** |
+| **MVP assessment & Version 2 backlog** | **`doc/Odoo_v19_Cleaning_MVP_Assessment.pdf`** |
+| PowerPoint (editable deck) | `cleaning_operations_demo_presentation.pptx` |
+| PDF export of the same deck (repo root) | `cleaning_operations_demo_presentation.pdf` |
 | Screenshot source (duplicate of `doc/guide/screenshots/`) | `scshots/` |
 | Regeneration script | `build_demo_presentation.py` |
 
@@ -214,3 +242,4 @@ Modules in this repository are **LGPL-3** unless stated otherwise in each `__man
 |----------|-------------|
 | [`cleaning_fsm_portal_executor`](cleaning_fsm_portal_executor/) | Operational module (models, portal, report). |
 | [`cleaning_operations_demo_data/README.md`](cleaning_operations_demo_data/README.md) | What demo data loads and design notes. |
+| [`doc/README.md`](doc/README.md) | Index of PDFs and screenshot paths under **`doc/`**. |
