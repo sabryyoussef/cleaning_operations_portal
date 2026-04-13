@@ -53,6 +53,38 @@ class ProjectTask(models.Model):
         copy=False,
         help='Single after photo uploaded by the portal cleaner from the visit page.',
     )
+    fsm_portal_photo_before_latitude = fields.Float(
+        string='Before photo latitude (portal)',
+        copy=False,
+        digits=(16, 7),
+        help='Optional browser geolocation when the before photo was uploaded.',
+    )
+    fsm_portal_photo_before_longitude = fields.Float(
+        string='Before photo longitude (portal)',
+        copy=False,
+        digits=(16, 7),
+    )
+    fsm_portal_photo_before_accuracy = fields.Float(
+        string='Before photo GPS accuracy (m)',
+        copy=False,
+        digits=(16, 1),
+    )
+    fsm_portal_photo_after_latitude = fields.Float(
+        string='After photo latitude (portal)',
+        copy=False,
+        digits=(16, 7),
+        help='Optional browser geolocation when the after photo was uploaded.',
+    )
+    fsm_portal_photo_after_longitude = fields.Float(
+        string='After photo longitude (portal)',
+        copy=False,
+        digits=(16, 7),
+    )
+    fsm_portal_photo_after_accuracy = fields.Float(
+        string='After photo GPS accuracy (m)',
+        copy=False,
+        digits=(16, 1),
+    )
     fsm_portal_ended_at = fields.Datetime(
         string='Ended at (portal)',
         copy=False,
@@ -71,20 +103,26 @@ class ProjectTask(models.Model):
     fsm_portal_late_start = fields.Boolean(
         string='Late check-in (vs planned start)',
         compute='_compute_fsm_portal_late_start',
+        store=True,
         help='True when portal check-in time is after the task planned start (Field Service planning).',
     )
     fsm_portal_late_start_delay_text = fields.Char(
         string='Late by',
         compute='_compute_fsm_portal_late_start',
+        store=True,
         help='Human-readable lateness when check-in is after the planned start.',
     )
 
-    @api.depends('is_fsm', 'create_date')
+    @api.depends('is_fsm', 'create_date', 'partner_id')
     def _compute_fsm_portal_qr_entry_url(self):
         base = self.env['ir.config_parameter'].sudo().get_param('web.base.url', '').rstrip('/')
         for task in self:
             if base and task.id and task.is_fsm:
-                task.fsm_portal_qr_entry_url = '%s/my/fsm-visit/%s' % (base, task.id)
+                url = '%s/my/fsm-visit/%s' % (base, task.id)
+                # Site id in query helps cleaners confirm the QR matches the scheduled site (Phase 2).
+                if task.partner_id:
+                    url += '?site=%s' % int(task.partner_id.id)
+                task.fsm_portal_qr_entry_url = url
             else:
                 task.fsm_portal_qr_entry_url = False
 
@@ -152,6 +190,12 @@ class ProjectTask(models.Model):
         extra = frozenset({
             'fsm_portal_photo_before',
             'fsm_portal_photo_after',
+            'fsm_portal_photo_before_latitude',
+            'fsm_portal_photo_before_longitude',
+            'fsm_portal_photo_before_accuracy',
+            'fsm_portal_photo_after_latitude',
+            'fsm_portal_photo_after_longitude',
+            'fsm_portal_photo_after_accuracy',
             'fsm_portal_ended_at',
             'fsm_portal_visit_duration_text',
             'fsm_portal_start_latitude',

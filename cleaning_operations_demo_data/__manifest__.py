@@ -1,7 +1,7 @@
 {
     "name": "Cleaning Operations Demo Data",
     "summary": "Demo-only native data preload for a cleaning operations proof of concept",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.1.3",
     "category": "Hidden",
     "license": "LGPL-3",
     "author": "Sabry Youssef",

@@ -24,18 +24,33 @@ def _fsm_parse_optional_float(raw):
 
 def _fsm_portal_geo_from_request(form):
     """Return (vals_dict, gps_flag) where gps_flag is 'ok' or 'miss'. Never raises."""
-    lat = _fsm_parse_optional_float(form.get('fsm_portal_start_geo_lat'))
-    lon = _fsm_parse_optional_float(form.get('fsm_portal_start_geo_lon'))
-    acc = _fsm_parse_optional_float(form.get('fsm_portal_start_geo_accuracy'))
+    return _fsm_portal_geo_from_request_keys(
+        form,
+        'fsm_portal_start_geo_lat',
+        'fsm_portal_start_geo_lon',
+        'fsm_portal_start_geo_accuracy',
+        {
+            'lat': 'fsm_portal_start_latitude',
+            'lon': 'fsm_portal_start_longitude',
+            'acc': 'fsm_portal_start_accuracy',
+        },
+    )
+
+
+def _fsm_portal_geo_from_request_keys(form, lat_key, lon_key, acc_key, field_map):
+    """Map browser geo POST keys to task float fields. Returns (vals_dict, 'ok'|'miss')."""
+    lat = _fsm_parse_optional_float(form.get(lat_key))
+    lon = _fsm_parse_optional_float(form.get(lon_key))
+    acc = _fsm_parse_optional_float(form.get(acc_key))
     vals = {}
     if lat is None or lon is None:
         return vals, 'miss'
     if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
         return vals, 'miss'
-    vals['fsm_portal_start_latitude'] = lat
-    vals['fsm_portal_start_longitude'] = lon
-    if acc is not None and acc >= 0.0:
-        vals['fsm_portal_start_accuracy'] = acc
+    vals[field_map['lat']] = lat
+    vals[field_map['lon']] = lon
+    if acc is not None and acc >= 0.0 and 'acc' in field_map:
+        vals[field_map['acc']] = acc
     return vals, 'ok'
 
 
@@ -81,7 +96,10 @@ class CleaningFsmPortal(http.Controller):
     )
     def portal_fsm_qr_entry(self, task_id, **kwargs):
         """Short URL for QR codes → login if needed, then same visit flow as /my/fsm-visits/<id>."""
+        site = request.params.get('site')
         path = '/my/fsm-visits/%s' % int(task_id)
+        if site:
+            path = '%s?site=%s' % (path, quote(str(site), safe=''))
         if request.env.user._is_public():
             return request.redirect('/web/login?redirect=%s' % quote(path, safe=''))
         return request.redirect(path)
@@ -112,9 +130,20 @@ class CleaningFsmPortal(http.Controller):
         task = self._task_for_portal_executor(task_id, user)
         if not task:
             return request.render('cleaning_fsm_portal_executor.portal_fsm_visit_denied', {})
+        site_param = request.params.get('site')
+        site_mismatch = False
+        if site_param:
+            try:
+                spid = int(site_param)
+            except (TypeError, ValueError):
+                site_mismatch = True
+            else:
+                if not task.partner_id or task.partner_id.id != spid:
+                    site_mismatch = True
         values = {
             'task': task,
             'page_name': 'fsm_visit_detail',
+            'fsm_portal_site_qr_mismatch': site_mismatch,
         }
         return request.render('cleaning_fsm_portal_executor.portal_fsm_visit_detail', values)
 
@@ -212,6 +241,19 @@ class CleaningFsmPortal(http.Controller):
         )
         if err:
             return request.redirect('/my/fsm-visits/%s?photo_err=%s' % (task.id, err))
+        geo_vals, _gps = _fsm_portal_geo_from_request_keys(
+            request.httprequest.form,
+            'fsm_portal_photo_before_geo_lat',
+            'fsm_portal_photo_before_geo_lon',
+            'fsm_portal_photo_before_geo_accuracy',
+            {
+                'lat': 'fsm_portal_photo_before_latitude',
+                'lon': 'fsm_portal_photo_before_longitude',
+                'acc': 'fsm_portal_photo_before_accuracy',
+            },
+        )
+        if geo_vals:
+            task.sudo().write(geo_vals)
         return request.redirect('/my/fsm-visits/%s?photo_ok=before' % task.id)
 
     @http.route(
@@ -239,4 +281,17 @@ class CleaningFsmPortal(http.Controller):
         )
         if err:
             return request.redirect('/my/fsm-visits/%s?photo_err=%s' % (task.id, err))
+        geo_vals, _gps = _fsm_portal_geo_from_request_keys(
+            request.httprequest.form,
+            'fsm_portal_photo_after_geo_lat',
+            'fsm_portal_photo_after_geo_lon',
+            'fsm_portal_photo_after_geo_accuracy',
+            {
+                'lat': 'fsm_portal_photo_after_latitude',
+                'lon': 'fsm_portal_photo_after_longitude',
+                'acc': 'fsm_portal_photo_after_accuracy',
+            },
+        )
+        if geo_vals:
+            task.sudo().write(geo_vals)
         return request.redirect('/my/fsm-visits/%s?photo_ok=after' % task.id)

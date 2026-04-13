@@ -66,6 +66,26 @@
                                 </t>
                             </td>
                         </tr>
+                        <tr t-if="doc.fsm_portal_photo_before_latitude or doc.fsm_portal_photo_before_longitude">
+                            <th class="align-top text-nowrap">Before photo GPS</th>
+                            <td>
+                                <span t-if="doc.fsm_portal_photo_before_latitude != False and doc.fsm_portal_photo_before_longitude != False"
+                                      t-esc="'%.6f, %.6f' % (doc.fsm_portal_photo_before_latitude, doc.fsm_portal_photo_before_longitude)"/>
+                                <t t-if="doc.fsm_portal_photo_before_accuracy != False">
+                                    <span> (±<span t-esc="int(round(doc.fsm_portal_photo_before_accuracy))"/> m)</span>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.fsm_portal_photo_after_latitude or doc.fsm_portal_photo_after_longitude">
+                            <th class="align-top text-nowrap">After photo GPS</th>
+                            <td>
+                                <span t-if="doc.fsm_portal_photo_after_latitude != False and doc.fsm_portal_photo_after_longitude != False"
+                                      t-esc="'%.6f, %.6f' % (doc.fsm_portal_photo_after_latitude, doc.fsm_portal_photo_after_longitude)"/>
+                                <t t-if="doc.fsm_portal_photo_after_accuracy != False">
+                                    <span> (±<span t-esc="int(round(doc.fsm_portal_photo_after_accuracy))"/> m)</span>
+                                </t>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
