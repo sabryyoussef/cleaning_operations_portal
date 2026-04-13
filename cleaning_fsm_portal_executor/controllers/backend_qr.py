@@ -12,7 +12,6 @@ class CleaningFsmBackendQr(http.Controller):
         ['/cleaning_fsm_portal/fsm_qr_png/<int:task_id>'],
         type='http',
         auth='user',
-        readonly=True,
     )
     def fsm_portal_qr_png(self, task_id, **kwargs):
         """PNG for the portal QR entry URL. Requires task read + project user."""
