@@ -160,11 +160,11 @@ class ProjectTask(models.Model):
             if secs <= 0:
                 continue
             task.fsm_portal_late_start = True
-            task.fsm_portal_late_start_delay_text = self._format_fsm_portal_lateness_delay(secs)
+            task.fsm_portal_late_start_delay_text = task._format_fsm_portal_lateness_delay(secs)
 
-    @staticmethod
-    def _format_fsm_portal_lateness_delay(secs):
+    def _format_fsm_portal_lateness_delay(self, secs):
         """Return translated short text like '12 min late' (ceiling minutes, minimum 1)."""
+        _ = self.env._
         total_min = max(1, (secs + 59) // 60)
         h, m = divmod(total_min, 60)
         if h and m:
@@ -179,6 +179,7 @@ class ProjectTask(models.Model):
             task.fsm_portal_visit_duration_text = False
             if not task.fsm_portal_started_at or not task.fsm_portal_ended_at:
                 continue
+            _ = task.env._
             delta = task.fsm_portal_ended_at - task.fsm_portal_started_at
             secs = int(delta.total_seconds())
             if secs < 0:
