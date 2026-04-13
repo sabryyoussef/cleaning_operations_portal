@@ -26,29 +26,39 @@
 
                     <div class="row g-2 mb-3">
                         <div class="col-12 col-lg-2">
+                            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px;">
                             <button name="action_open_all" type="object" class="oe_stat_button w-100" icon="fa-list">
                                 <field name="total_visits" widget="statinfo" string="Total FSM Visits"/>
                             </button>
+                            </div>
                         </div>
                         <div class="col-12 col-lg-2">
+                            <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:8px;">
                             <button name="action_open_not_started" type="object" class="oe_stat_button w-100" icon="fa-clock-o">
                                 <field name="not_started_visits" widget="statinfo" string="Not Started"/>
                             </button>
+                            </div>
                         </div>
                         <div class="col-12 col-lg-2">
+                            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:8px;">
                             <button name="action_open_in_progress" type="object" class="oe_stat_button w-100" icon="fa-play-circle">
                                 <field name="in_progress_visits" widget="statinfo" string="In Progress"/>
                             </button>
+                            </div>
                         </div>
                         <div class="col-12 col-lg-2">
+                            <div style="background:#ecfeff; border:1px solid #a5f3fc; border-radius:10px; padding:8px;">
                             <button name="action_open_completed" type="object" class="oe_stat_button w-100" icon="fa-check-circle">
                                 <field name="completed_visits" widget="statinfo" string="Completed"/>
                             </button>
+                            </div>
                         </div>
                         <div class="col-12 col-lg-2">
+                            <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:8px;">
                             <button name="action_open_late" type="object" class="oe_stat_button w-100" icon="fa-exclamation-triangle">
                                 <field name="late_checkins" widget="statinfo" string="Late Check-ins"/>
                             </button>
+                            </div>
                         </div>
                     </div>
 

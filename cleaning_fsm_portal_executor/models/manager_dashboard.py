@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from markupsafe import Markup, escape
+from collections import Counter
 
 from odoo import _, api, fields, models
 
@@ -21,14 +22,20 @@ class CleaningFsmManagerDashboard(models.Model):
     def _fsm_base_domain(self):
         return [('is_fsm', '=', True)]
 
-    def _render_group_table(self, rows, title):
+    def _render_group_table(self, rows, title, bg_color, border_color, title_color):
         if not rows:
             return Markup(
-                '<div class="border rounded p-3 bg-white">'
-                '<h5 class="mb-2">%s</h5>'
+                '<div class="rounded p-3" style="background:%s; border:1px solid %s;">'
+                '<h5 class="mb-2" style="color:%s;">%s</h5>'
                 '<p class="text-muted mb-0">%s</p>'
                 '</div>'
-            ) % (escape(title), escape(_('No data yet.')))
+            ) % (
+                escape(bg_color),
+                escape(border_color),
+                escape(title_color),
+                escape(title),
+                escape(_('No data yet.')),
+            )
         body = ''.join(
             '<tr><td>%s</td><td class="text-end">%s</td></tr>' % (
                 escape(label),
@@ -37,47 +44,45 @@ class CleaningFsmManagerDashboard(models.Model):
             for label, count in rows
         )
         return Markup(
-            '<div class="border rounded p-3 bg-white h-100">'
-            '<h5 class="mb-2">%s</h5>'
+            '<div class="rounded p-3 h-100" style="background:%s; border:1px solid %s;">'
+            '<h5 class="mb-2" style="color:%s;">%s</h5>'
             '<table class="table table-sm table-hover align-middle mb-0">'
             '<thead><tr><th>%s</th><th class="text-end">%s</th></tr></thead>'
             '<tbody>%s</tbody></table></div>'
-        ) % (escape(title), escape(_('Group')), escape(_('Visits')), Markup(body))
+        ) % (
+            escape(bg_color),
+            escape(border_color),
+            escape(title_color),
+            escape(title),
+            escape(_('Group')),
+            escape(_('Visits')),
+            Markup(body),
+        )
 
     @api.depends_context('uid')
     def _compute_metrics(self):
         Task = self.env['project.task']
         base_domain = self._fsm_base_domain()
 
-        total = Task.search_count(base_domain)
-        not_started = Task.search_count(base_domain + [('fsm_portal_started_at', '=', False)])
-        in_progress = Task.search_count(base_domain + [('fsm_portal_started_at', '!=', False), ('fsm_portal_ended_at', '=', False)])
-        completed = Task.search_count(base_domain + [('fsm_portal_ended_at', '!=', False)])
-        late = Task.search_count(base_domain + [('fsm_portal_late_start', '=', True)])
+        tasks = Task.search(base_domain)
 
-        cleaner_groups = Task.read_group(
-            base_domain + [('fsm_portal_executor_id', '!=', False)],
-            ['fsm_portal_executor_id'],
-            ['fsm_portal_executor_id'],
-            orderby='fsm_portal_executor_id_count desc',
-            limit=8,
-        )
-        cleaner_rows = [
-            (row['fsm_portal_executor_id'][1], row['fsm_portal_executor_id_count'])
-            for row in cleaner_groups if row.get('fsm_portal_executor_id')
-        ]
+        total = len(tasks)
+        not_started = sum(1 for t in tasks if not t.fsm_portal_started_at)
+        in_progress = sum(1 for t in tasks if t.fsm_portal_started_at and not t.fsm_portal_ended_at)
+        completed = sum(1 for t in tasks if t.fsm_portal_ended_at)
+        late = sum(1 for t in tasks if t.fsm_portal_late_start)
 
-        site_groups = Task.read_group(
-            base_domain + [('fsm_cleaning_site_id', '!=', False)],
-            ['fsm_cleaning_site_id'],
-            ['fsm_cleaning_site_id'],
-            orderby='fsm_cleaning_site_id_count desc',
-            limit=8,
+        cleaner_counter = Counter(
+            t.fsm_portal_executor_id.display_name
+            for t in tasks if t.fsm_portal_executor_id
         )
-        site_rows = [
-            (row['fsm_cleaning_site_id'][1], row['fsm_cleaning_site_id_count'])
-            for row in site_groups if row.get('fsm_cleaning_site_id')
-        ]
+        cleaner_rows = cleaner_counter.most_common(8)
+
+        site_counter = Counter(
+            t.fsm_cleaning_site_id.display_name
+            for t in tasks if t.fsm_cleaning_site_id
+        )
+        site_rows = site_counter.most_common(8)
 
         for rec in self:
             rec.refreshed_at = fields.Datetime.now()
@@ -86,8 +91,20 @@ class CleaningFsmManagerDashboard(models.Model):
             rec.in_progress_visits = in_progress
             rec.completed_visits = completed
             rec.late_checkins = late
-            rec.by_cleaner_html = self._render_group_table(cleaner_rows, _('Top cleaners by visit volume'))
-            rec.by_site_html = self._render_group_table(site_rows, _('Top sites by visit volume'))
+            rec.by_cleaner_html = self._render_group_table(
+                cleaner_rows,
+                _('Top cleaners by visit volume'),
+                '#f8fafc',
+                '#cbd5e1',
+                '#1d4ed8',
+            )
+            rec.by_site_html = self._render_group_table(
+                site_rows,
+                _('Top sites by visit volume'),
+                '#f0fdf4',
+                '#bbf7d0',
+                '#166534',
+            )
 
     def _open_tasks(self, extra_domain=None):
         self.ensure_one()
