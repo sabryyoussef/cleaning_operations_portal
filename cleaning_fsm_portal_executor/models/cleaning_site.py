@@ -34,6 +34,11 @@ class CleaningSite(models.Model):
         string='QR Readiness Note',
         compute='_compute_qr_readiness_note',
     )
+    fsm_portal_site_qr_url = fields.Char(
+        string='Site QR Entry URL',
+        compute='_compute_fsm_portal_site_qr_url',
+        help='Site-oriented QR URL. Cleaner scans at site, logs in, then sees only their site visits.',
+    )
     note = fields.Text()
     task_ids = fields.One2many('project.task', 'fsm_cleaning_site_id', string='Visits')
     task_count = fields.Integer(compute='_compute_task_count')
@@ -74,6 +79,15 @@ class CleaningSite(models.Model):
             return True, _('Ready: site details are set (QR reference optional).')
         return False, _('Add customer or address details to make this site QR-ready.')
 
+    @api.depends('active', 'name', 'qr_reference')
+    def _compute_fsm_portal_site_qr_url(self):
+        base = self.env['ir.config_parameter'].sudo().get_param('web.base.url', '').rstrip('/')
+        for site in self:
+            if base and site.id and site.active:
+                site.fsm_portal_site_qr_url = '%s/my/fsm-site/%s' % (base, int(site.id))
+            else:
+                site.fsm_portal_site_qr_url = False
+
     @api.onchange('partner_id')
     def _onchange_partner_id_address(self):
         if not self.partner_id:
@@ -105,4 +119,14 @@ class CleaningSite(models.Model):
                 'default_fsm_cleaning_site_id': self.id,
                 'default_is_fsm': True,
             },
+        }
+
+    def action_open_site_qr_png(self):
+        self.ensure_one()
+        if not self.fsm_portal_site_qr_url:
+            return False
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/cleaning_fsm_portal/site_qr_png/%s' % int(self.id),
+            'target': 'new',
         }
