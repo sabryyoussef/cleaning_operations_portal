@@ -40,3 +40,36 @@ class CleaningFsmBackendQr(http.Controller):
                 ('Cache-Control', 'private, max-age=300'),
             ],
         )
+
+    @http.route(
+        ['/cleaning_fsm_portal/site_qr_png/<int:site_id>'],
+        type='http',
+        auth='user',
+    )
+    def fsm_portal_site_qr_png(self, site_id, **kwargs):
+        """PNG for site-oriented portal QR entry URL. Requires site read + project user."""
+        site = request.env['cleaning.site'].browse(int(site_id)).exists()
+        if not site:
+            raise request.not_found()
+        if not request.env.user.has_group('project.group_project_user'):
+            raise request.not_found()
+        try:
+            site.check_access('read')
+        except AccessError:
+            raise request.not_found()
+        url = site.fsm_portal_site_qr_url
+        if not url:
+            raise request.not_found()
+        try:
+            import qrcode  # noqa: PLC0415
+        except ImportError:
+            raise request.not_found()
+        buf = io.BytesIO()
+        qrcode.make(url).save(buf, format='PNG')
+        return request.make_response(
+            buf.getvalue(),
+            headers=[
+                ('Content-Type', 'image/png'),
+                ('Cache-Control', 'private, max-age=300'),
+            ],
+        )

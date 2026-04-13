@@ -32,6 +32,14 @@
                     >
                         <field name="task_count" widget="statinfo"/>
                     </button>
+                    <button
+                        name="action_open_site_qr_png"
+                        type="object"
+                        class="btn btn-secondary"
+                        string="Open Site QR PNG"
+                        icon="fa-qrcode"
+                        invisible="not fsm_portal_site_qr_url"
+                    />
                 </header>
                 <sheet>
                     <group>
@@ -42,6 +50,7 @@
                             <field name="qr_reference"/>
                             <field name="qr_ready" readonly="1"/>
                             <field name="qr_readiness_note" readonly="1"/>
+                            <field name="fsm_portal_site_qr_url" widget="url" readonly="1"/>
                         </group>
                         <group string="Address">
                             <field name="street"/>

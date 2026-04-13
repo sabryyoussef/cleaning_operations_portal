@@ -88,6 +88,47 @@ class CleaningFsmPortal(http.Controller):
         return task
 
     @http.route(
+        ['/my/fsm-site/<int:site_id>'],
+        type='http',
+        auth='public',
+        website=True,
+        readonly=True,
+    )
+    def portal_fsm_site_qr_entry(self, site_id, **kwargs):
+        """Short site QR URL -> login if needed, then portal site visit landing."""
+        path = '/my/fsm-sites/%s' % int(site_id)
+        if request.env.user._is_public():
+            return request.redirect('/web/login?redirect=%s' % quote(path, safe=''))
+        return request.redirect(path)
+
+    @http.route(['/my/fsm-sites/<int:site_id>'], type='http', auth='user', website=True)
+    def portal_fsm_site_visits(self, site_id, **kwargs):
+        """Site-oriented landing: show only this cleaner's FSM visits for the scanned site."""
+        redir = self._ensure_portal_user()
+        if redir is not None:
+            return redir
+        site = request.env['cleaning.site'].sudo().browse(int(site_id)).exists()
+        if not site:
+            return request.render('cleaning_fsm_portal_executor.portal_fsm_site_missing', {'site_id': site_id})
+        user = request.env.user
+        domain = self._portal_fsm_domain(user) + [('fsm_cleaning_site_id', '=', site.id)]
+        tasks = request.env['project.task'].sudo().search(domain, order='planned_date_begin asc, id desc')
+        if not tasks:
+            return request.render(
+                'cleaning_fsm_portal_executor.portal_fsm_site_no_visits',
+                {'site': site},
+            )
+        if len(tasks) == 1:
+            return request.redirect('/my/fsm-visits/%s?site_id=%s' % (tasks.id, site.id))
+        return request.render(
+            'cleaning_fsm_portal_executor.portal_fsm_site_visit_list',
+            {
+                'site': site,
+                'tasks': tasks,
+            },
+        )
+
+    @http.route(
         ['/my/fsm-visit/<int:task_id>'],
         type='http',
         auth='public',
