@@ -18,6 +18,8 @@ class CleaningFsmManagerDashboard(models.Model):
     late_checkins = fields.Integer(compute='_compute_metrics')
     by_cleaner_html = fields.Html(compute='_compute_metrics', sanitize=False)
     by_site_html = fields.Html(compute='_compute_metrics', sanitize=False)
+    recurring_weekly_count = fields.Integer(compute='_compute_metrics')
+    recurring_monthly_count = fields.Integer(compute='_compute_metrics')
 
     def _fsm_base_domain(self):
         return [('is_fsm', '=', True)]
@@ -65,6 +67,9 @@ class CleaningFsmManagerDashboard(models.Model):
         base_domain = self._fsm_base_domain()
 
         tasks = Task.search(base_domain)
+        Slot = self.env['planning.slot']
+        weekly_slots = Slot.search_count([('name', 'ilike', 'Weekly')])
+        monthly_slots = Slot.search_count([('name', 'ilike', 'Monthly')])
 
         total = len(tasks)
         not_started = sum(1 for t in tasks if not t.fsm_portal_started_at)
@@ -91,6 +96,8 @@ class CleaningFsmManagerDashboard(models.Model):
             rec.in_progress_visits = in_progress
             rec.completed_visits = completed
             rec.late_checkins = late
+            rec.recurring_weekly_count = weekly_slots
+            rec.recurring_monthly_count = monthly_slots
             rec.by_cleaner_html = self._render_group_table(
                 cleaner_rows,
                 _('Top cleaners by visit volume'),
@@ -144,4 +151,24 @@ class CleaningFsmManagerDashboard(models.Model):
             'res_id': self.id,
             'view_mode': 'form',
             'target': 'current',
+        }
+
+    def action_open_weekly_schedules(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Weekly Cleaning Schedules'),
+            'res_model': 'planning.slot',
+            'view_mode': 'list,form,calendar',
+            'domain': [('name', 'ilike', 'Weekly')],
+        }
+
+    def action_open_monthly_schedules(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Monthly Cleaning Schedules'),
+            'res_model': 'planning.slot',
+            'view_mode': 'list,form,calendar',
+            'domain': [('name', 'ilike', 'Monthly')],
         }

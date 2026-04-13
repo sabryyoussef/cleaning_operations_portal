@@ -16,6 +16,7 @@ Portal execution (v1)
     'depends': [
         'project',
         'portal',
+        'planning',
         'industry_fsm',
     ],
     'data': [

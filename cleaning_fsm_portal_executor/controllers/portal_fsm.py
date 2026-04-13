@@ -177,6 +177,10 @@ class CleaningFsmPortal(http.Controller):
         task = self._task_for_portal_executor(task_id, user)
         if not task:
             raise request.not_found()
+        mismatch_flag = str(request.params.get('fsm_portal_site_qr_mismatch') or '0') == '1'
+        mismatch_ack = str(request.params.get('fsm_portal_qr_mismatch_ack') or '0') == '1'
+        if mismatch_flag and not mismatch_ack:
+            return request.redirect('/my/fsm-visits/%s?start_err=site_mismatch_unconfirmed' % task.id)
         if task.fsm_portal_started:
             return request.redirect('/my/fsm-visits/%s' % task.id)
         vals = {'fsm_portal_started': True}
