@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class CleaningSite(models.Model):
@@ -42,6 +43,15 @@ class CleaningSite(models.Model):
     note = fields.Text()
     task_ids = fields.One2many('project.task', 'fsm_cleaning_site_id', string='Visits')
     task_count = fields.Integer(compute='_compute_task_count')
+    fsm_allowed_cleaner_ids = fields.Many2many(
+        'res.users',
+        'cleaning_site_res_users_rel',
+        'site_id',
+        'user_id',
+        string='Allowed Cleaners',
+        domain="[('share', '=', True), ('active', '=', True)]",
+        help='Portal cleaners who can be assigned to visits for this site.',
+    )
 
     @api.depends('task_ids')
     def _compute_task_count(self):
@@ -130,3 +140,12 @@ class CleaningSite(models.Model):
             'url': '/cleaning_fsm_portal/site_qr_png/%s' % int(self.id),
             'target': 'new',
         }
+
+    @api.constrains('fsm_allowed_cleaner_ids')
+    def _check_fsm_allowed_cleaners_are_portal_users(self):
+        for site in self:
+            for user in site.fsm_allowed_cleaner_ids:
+                if not user.active or not user.share or not user.has_group('base.group_portal'):
+                    raise ValidationError(
+                        _('Allowed cleaners must be active portal users.')
+                    )

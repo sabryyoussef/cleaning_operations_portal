@@ -47,6 +47,13 @@
                             <field name="active"/>
                             <field name="name"/>
                             <field name="partner_id"/>
+                            <field
+                                name="fsm_allowed_cleaner_ids"
+                                widget="many2many_tags"
+                                domain="[('share', '=', True), ('active', '=', True), ('groups_id', 'in', [ref('base.group_portal')])]"
+                                placeholder="Allowed portal cleaners for this site"
+                                options="{'no_create': True}"
+                            />
                             <field name="qr_reference"/>
                             <field name="qr_ready" readonly="1"/>
                             <field name="qr_readiness_note" readonly="1"/>
