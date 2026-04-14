@@ -36,7 +36,7 @@
                         name="fsm_portal_executor_id"
                         nolabel="1"
                         string="Assigned Cleaner"
-                        domain="[('share', '=', True), ('active', '=', True), ('groups_id', 'in', [ref('base.group_portal')])]"
+                        domain="[('share', '=', True), ('active', '=', True)]"
                         options="{'no_open': True, 'no_create': True}"
                         placeholder="Portal user who performs the visit"
                     />

@@ -186,7 +186,6 @@ class ProjectTask(models.Model):
                     'fsm_portal_executor_id': [
                         ('share', '=', True),
                         ('active', '=', True),
-                        ('groups_id', 'in', [self.env.ref('base.group_portal').id]),
                     ],
                 }
             }
