@@ -20,6 +20,12 @@ class ProjectTask(models.Model):
         copy=False,
         help='Dedicated site record for this visit (demo-level operational master data).',
     )
+    fsm_site_allowed_cleaner_ids = fields.Many2many(
+        'res.users',
+        related='fsm_cleaning_site_id.fsm_allowed_cleaner_ids',
+        string='Site allowed cleaners',
+        help='Technical helper for cleaner filtering on tasks.',
+    )
     fsm_portal_started = fields.Boolean(
         string='Visit started (portal)',
         default=False,
@@ -163,11 +169,38 @@ class ProjectTask(models.Model):
     def _onchange_fsm_cleaning_site_id(self):
         for task in self:
             site = task.fsm_cleaning_site_id
-            if site and site.partner_id and not task.partner_id:
+            # Keep task customer aligned with selected site to prevent avoidable validation errors in UI flows.
+            if site and site.partner_id and task.partner_id != site.partner_id:
                 task.partner_id = site.partner_id
+            allowed = site.fsm_allowed_cleaner_ids
+            if allowed:
+                if not task.fsm_portal_executor_id or task.fsm_portal_executor_id not in allowed:
+                    task.fsm_portal_executor_id = allowed[0] if len(allowed) == 1 else False
+                return {
+                    'domain': {
+                        'fsm_portal_executor_id': [('id', 'in', allowed.ids)],
+                    }
+                }
+            return {
+                'domain': {
+                    'fsm_portal_executor_id': [
+                        ('share', '=', True),
+                        ('active', '=', True),
+                        ('groups_id', 'in', [self.env.ref('base.group_portal').id]),
+                    ],
+                }
+            }
 
     @api.constrains('fsm_cleaning_site_id', 'partner_id')
     def _check_fsm_cleaning_site_partner(self):
+        if self.env.context.get('fsm_portal_skip_site_customer_validation'):
+            return
+        skip_by_param = self.env['ir.config_parameter'].sudo().get_param(
+            'cleaning_fsm_portal_executor.skip_site_customer_validation',
+            default='0',
+        )
+        if str(skip_by_param).lower() in ('1', 'true', 'yes', 'on'):
+            return
         for task in self:
             site = task.fsm_cleaning_site_id
             if not site or not site.partner_id or not task.partner_id:
@@ -309,6 +342,17 @@ class ProjectTask(models.Model):
                 raise ValidationError(_('The portal cleaner must be a portal-type user (not an internal user).'))
             if not user.has_group('base.group_portal'):
                 raise ValidationError(_('The portal cleaner must belong to the Portal group.'))
+
+    @api.constrains('fsm_cleaning_site_id', 'fsm_portal_executor_id')
+    def _check_fsm_site_allowed_cleaners(self):
+        for task in self:
+            if not task.fsm_cleaning_site_id or not task.fsm_portal_executor_id:
+                continue
+            allowed = task.fsm_cleaning_site_id.fsm_allowed_cleaner_ids
+            if allowed and task.fsm_portal_executor_id not in allowed:
+                raise ValidationError(
+                    _('The selected cleaner is not in the allowed cleaners list for this cleaning site.')
+                )
 
     def write(self, vals):
         # Broad guard: block any portal ORM write on tasks (controller mutates via sudo after checks).

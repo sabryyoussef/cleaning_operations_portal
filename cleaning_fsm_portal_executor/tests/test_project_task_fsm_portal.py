@@ -22,6 +22,12 @@ class TestProjectTaskFsmPortal(CleaningFsmPortalCommon):
             groups='base.group_portal',
         )
         cls.portal_cleaner.write({'share': True})
+        cls.portal_cleaner_2 = new_test_user(
+            cls.env,
+            login='fsm_portal2_%s' % _u,
+            groups='base.group_portal',
+        )
+        cls.portal_cleaner_2.write({'share': True})
         cls.internal_user = new_test_user(
             cls.env,
             login='fsm_internal_%s' % _u,
@@ -100,6 +106,72 @@ class TestProjectTaskFsmPortal(CleaningFsmPortalCommon):
         task = self._create_fsm_task()
         task.write({'fsm_portal_executor_id': self.portal_cleaner.id})
         self.assertEqual(task.fsm_portal_executor_id, self.portal_cleaner)
+
+    def test_site_partner_constraint_can_be_bypassed_by_context(self):
+        other_partner = self.env['res.partner'].create({'name': 'Other Customer'})
+        site = self.env['cleaning.site'].create({
+            'name': 'Context Bypass Site',
+            'partner_id': other_partner.id,
+        })
+        task = self._create_fsm_task()
+        task.with_context(fsm_portal_skip_site_customer_validation=True).write({
+            'fsm_cleaning_site_id': site.id,
+        })
+        self.assertEqual(task.fsm_cleaning_site_id, site)
+
+    def test_site_partner_constraint_can_be_bypassed_by_config_parameter(self):
+        other_partner = self.env['res.partner'].create({'name': 'Param Bypass Customer'})
+        site = self.env['cleaning.site'].create({
+            'name': 'Param Bypass Site',
+            'partner_id': other_partner.id,
+        })
+        self.addCleanup(
+            self.env['ir.config_parameter'].sudo().set_param,
+            'cleaning_fsm_portal_executor.skip_site_customer_validation',
+            '0',
+        )
+        self.env['ir.config_parameter'].sudo().set_param(
+            'cleaning_fsm_portal_executor.skip_site_customer_validation',
+            '1',
+        )
+        task = self._create_fsm_task()
+        task.write({'fsm_cleaning_site_id': site.id})
+        self.assertEqual(task.fsm_cleaning_site_id, site)
+
+    def test_site_allowed_cleaners_single_value_auto_selected_onchange(self):
+        site = self.env['cleaning.site'].create({
+            'name': 'Single Cleaner Site',
+            'partner_id': self.partner.id,
+            'fsm_allowed_cleaner_ids': [(6, 0, [self.portal_cleaner.id])],
+        })
+        task = self.Task.new({
+            'name': 'Onchange test',
+            'project_id': self.fsm_project.id,
+            'partner_id': self.partner.id,
+            'fsm_cleaning_site_id': site.id,
+        })
+        result = task._onchange_fsm_cleaning_site_id()
+        self.assertEqual(task.fsm_portal_executor_id, self.portal_cleaner)
+        self.assertIn('domain', result)
+        self.assertEqual(result['domain']['fsm_portal_executor_id'], [('id', 'in', [self.portal_cleaner.id])])
+
+    def test_site_allowed_cleaners_constraint_rejects_not_allowed_cleaner(self):
+        site = self.env['cleaning.site'].create({
+            'name': 'Allowed Team Site',
+            'partner_id': self.partner.id,
+            'fsm_allowed_cleaner_ids': [(6, 0, [self.portal_cleaner.id])],
+        })
+        task = self._create_fsm_task(fsm_cleaning_site_id=site.id)
+        with self.assertRaises(ValidationError):
+            task.write({'fsm_portal_executor_id': self.portal_cleaner_2.id})
+
+    def test_site_allowed_cleaners_reject_internal_user(self):
+        with self.assertRaises(ValidationError):
+            self.env['cleaning.site'].create({
+                'name': 'Invalid Site Team',
+                'partner_id': self.partner.id,
+                'fsm_allowed_cleaner_ids': [(6, 0, [self.internal_user.id])],
+            })
 
     def test_portal_user_cannot_write_task_from_backend(self):
         task = self._create_fsm_task()

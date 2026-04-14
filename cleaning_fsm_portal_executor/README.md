@@ -26,6 +26,17 @@
 Add the **repository root** to `addons_path`, then install this module from the Apps list.  
 Optional: install **`cleaning_operations_demo_data`** for ready-made users and tasks — see [demo data README](../cleaning_operations_demo_data/README.md).
 
+## Validation bypass (site/customer match)
+
+By default, this module validates that `fsm_cleaning_site_id.partner_id` matches task `partner_id`.
+
+If you need to bypass it temporarily:
+
+- Per operation (ORM context): set context key `fsm_portal_skip_site_customer_validation=True`.
+- Globally (system parameter): set `cleaning_fsm_portal_executor.skip_site_customer_validation` to `1` (truthy values: `1`, `true`, `yes`, `on`).
+
+Use bypass only for controlled data migration or exceptional flows; keep default validation enabled for normal operations.
+
 ---
 
 ## License
