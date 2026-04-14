@@ -72,6 +72,24 @@ Install order:
 
 ---
 
+## Manager review quick paths
+
+Recommended day-to-day review flow (by task title):
+
+1. Open **Field Service -> Tasks**.
+2. Search by task title.
+3. Open task and review Cleaner, Cleaning Site, portal start/end, late flag, and photos.
+
+Other useful manager entry points:
+
+1. **Cleaning Sites -> open site -> Visits** stat button.
+2. **Operations Dashboard** KPI/action cards (late, in progress, completed, etc.).
+3. **Field Service -> Tasks** filters and group by (portal status, cleaning site).
+
+For detailed assignment/review test scenarios, see [cleaning_fsm_portal_executor/README.md](cleaning_fsm_portal_executor/README.md).
+
+---
+
 ## Demo data & users
 
 The **`cleaning_operations_demo_data`** module creates, among other records:

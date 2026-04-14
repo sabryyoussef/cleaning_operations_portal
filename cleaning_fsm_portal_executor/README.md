@@ -37,6 +37,71 @@ If you need to bypass it temporarily:
 
 Use bypass only for controlled data migration or exceptional flows; keep default validation enabled for normal operations.
 
+## Manager task review paths
+
+Managers can review a visit task from several places.
+
+Primary flow (by task title):
+
+1. Open **Field Service** app.
+2. Go to **Tasks**.
+3. In search, type the task title (for example: `Medical waste staging room - periodic sanitize (Ahmed)`).
+4. Open the matching task record.
+5. Review Cleaner, Cleaning Site, planned window, late check-in, photos, and portal timestamps.
+
+Other manager paths to open tasks:
+
+1. **Cleaning Sites -> Cleaning Sites -> open site -> Visits stat button**.
+2. **Operations Dashboard -> KPI/action cards** (late, in progress, completed, etc.).
+3. **Field Service -> Tasks -> Filters/Group By**:
+	- Filter by portal status (Late check-in, In progress, Ended).
+	- Filter tasks linked to a cleaning site.
+	- Group by Cleaning Site for site-level review.
+
+## Testing scenarios
+
+### Scenario A: Manager finds a task by title and reviews it
+
+1. Manager opens **Field Service -> Tasks**.
+2. Manager searches by task title.
+3. Manager opens task and confirms:
+	- Assigned Cleaner is correct.
+	- Cleaning Site is correct.
+	- Customer matches site customer (unless bypass is enabled).
+	- Portal fields are visible (start/end, late flag, photo evidence).
+
+Expected result: task opens successfully and manager can review operational evidence.
+
+### Scenario B: Site with one allowed cleaner (easy assignment)
+
+1. Open **Cleaning Sites** and set exactly one **Allowed Cleaner**.
+2. Open/create a Field Service task.
+3. Select that cleaning site.
+
+Expected result: cleaner is auto-selected on the task.
+
+### Scenario C: Site with multiple allowed cleaners
+
+1. Open **Cleaning Sites** and set two or more **Allowed Cleaners**.
+2. Open/create a task and select the site.
+3. Open the cleaner picker.
+
+Expected result: manager can choose from the site cleaner list.
+
+### Scenario D: Block non-allowed cleaner
+
+1. Configure site allowed cleaners.
+2. Try assigning a cleaner not in that site list.
+
+Expected result: validation error prevents saving.
+
+### Scenario E: Validation bypass for migration/exception flow
+
+1. Keep a site/customer mismatch intentionally.
+2. Use either context key `fsm_portal_skip_site_customer_validation=True` or system parameter `cleaning_fsm_portal_executor.skip_site_customer_validation=1`.
+
+Expected result: mismatch validation is skipped only when bypass is enabled.
+
 ---
 
 ## License
