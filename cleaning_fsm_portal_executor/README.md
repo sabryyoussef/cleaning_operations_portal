@@ -101,7 +101,6 @@ Expected result: validation error prevents saving.
 2. Use either context key `fsm_portal_skip_site_customer_validation=True` or system parameter `cleaning_fsm_portal_executor.skip_site_customer_validation=1`.
 
 Expected result: mismatch validation is skipped only when bypass is enabled.
-
 ---
 
 ## License
